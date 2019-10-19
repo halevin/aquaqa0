@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>alma.obops</groupId>
+        <artifactId>obops-spring-boot-master</artifactId>
+        <version>OBOPS-2019.08-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>template</artifactId>
+    <packaging>jar</packaging>
+    <name>template</name>
+    <description>Template Tool</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <start-class>alma.obops.template.Application</start-class>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.6</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>alma.icd.adapt</groupId>
+            <artifactId>adapt-messages</artifactId>
+            <version>${icd.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>alma.icd.adapt</groupId>
+            <artifactId>message-bus-rabbitmq</artifactId>
+            <version>${icd.version}</version>
+        </dependency>
+
+        <dependency>
+		  <groupId>org.springframework.security</groupId>
+		  <artifactId>spring-security-cas-client</artifactId>
+		  <version>3.0.8.RELEASE</version>
+		  <optional>false</optional>
+	   </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+
+
+        <!-- =====================
+             ObOps
+             ===================== -->
+        <!--<dependency>-->
+            <!--<groupId>alma.obops</groupId>-->
+            <!--<artifactId>archivedam</artifactId>-->
+            <!--<version>${obops.version}</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>alma.obops</groupId>
+            <artifactId>obops-utils</artifactId>
+            <version>${obops.version}</version>
+        </dependency>
+
+
+
+		<dependency>
+			<!-- ICT-11089 -->
+            <groupId>alma.obops</groupId>
+ 			<artifactId>boot-common</artifactId>
+            <version>${obops.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.vladimir-bukhtoyarov</groupId>
+            <artifactId>bucket4j-core</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <version>1.7.6</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/angular/node_modules</directory>
+                <excludes>
+                    <exclude>**</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <classpathDependencyExcludes>
+                        <classpathDependencyExclude>alma.icd.adapt:message-bus-rabbitmq</classpathDependencyExclude>
+                    </classpathDependencyExcludes>
+                    <environmentVariables>
+                        <ACSDATA>${basedir}/src/test/resources</ACSDATA>
+                    </environmentVariables>
+                    <systemPropertyVariables>
+                        <ACS.data>${basedir}/src/test/resources</ACS.data>
+                    </systemPropertyVariables>
+                    <skipTests>false</skipTests>
+                </configuration>
+            </plugin>
+
+
+            <!-- Integration with Angular application -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>angular/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.7.6</version>
+                <configuration>
+                    <npmInheritsProxyConfigFromMaven>true</npmInheritsProxyConfigFromMaven>
+                    <workingDirectory>${project.basedir}/src/main/angular</workingDirectory>
+                    <!--<installDirectory>target</installDirectory>-->
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <!-- optional: you don't really need execution ids, but it looks nice in your build log. -->
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <!-- optional: default phase is "generate-resources" -->
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <!-- See https://nodejs.org/en/download/ for latest node and npm (lts) versions -->
+                            <!--<nodeVersion>v8.11.2</nodeVersion>-->
+                            <!--<npmVersion>6.0.1</npmVersion>-->
+                            <nodeVersion>v10.16.0</nodeVersion>
+                            <npmVersion>6.9.0</npmVersion>
+                        </configuration>
+
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <!-- Optional configuration which provides for running any npm command -->
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm run build</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run build</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
