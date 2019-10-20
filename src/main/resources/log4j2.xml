@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN" monitorInterval="30">
 	<Properties>
-		<Property name="appName">template</Property>
+		<Property name="appName">snoopi</Property>
 		<Property name="fileName">${sys:user.home}/logs/${appName}.log</Property>
 		<Property name="filePattern">${sys:user.home}/logs/$${date:yyyy-MM}/${appName}-%d{MM-dd-yyyy}-%i.log.gz</Property>
 		<Property name="logPattern">%d{yyyy-MM-dd HH:mm:ss.SSS} %5p --- [%15.15t] %-40.40c{1.} : %m%n%ex</Property>

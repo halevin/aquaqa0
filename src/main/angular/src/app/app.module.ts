@@ -1,36 +1,45 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 import {HttpClientModule, HttpClientJsonpModule, HttpClientXsrfModule} from '@angular/common/http';
-import { Calendar } from 'angular-material-calendar';
-
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { HomeComponent } from './home/home.component';
+import { NavigationSidebarComponent } from './navigation-sidebar/navigation-sidebar.component';
 import { AppService } from './app.service';
-import { Globals } from './app.globals';
 import { PageHeaderComponent } from './page-header/page-header.component';
+import { Globals } from './app.globals';
+import { Render } from './app.render';
+import { InfoWidgetComponent } from './info-widget/info-widget.component';
+import { CookieService } from 'ngx-cookie-service';
+import { SortableColumnComponent } from './sortable-column/sortable-column.component';
+import { SortableTableDirective } from './app.sortable-table.directive';
+import { SortService } from './app.sort-service';
 import {SuiModule} from 'ng2-semantic-ui';
-import {Utils} from "./app.utils";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageHeaderComponent
+    HomeComponent,
+    NavigationSidebarComponent,
+    PageHeaderComponent,
+    InfoWidgetComponent,
+    SortableTableDirective,
+    SortableColumnComponent
   ],
   imports: [
     SuiModule,
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     HttpClientJsonpModule,
     HttpClientXsrfModule
   ],
-  providers: [AppService, Globals, Utils],
+  providers: [AppService, Globals, CookieService, Render, SortService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

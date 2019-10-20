@@ -20,7 +20,7 @@
 #*******************************************************************************
 
 include ../../Makefile.prototype
-APPLICATION=template
+APPLICATION=snoopi
 APP_TYPE=jar
 
 #

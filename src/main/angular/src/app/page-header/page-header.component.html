@@ -1,59 +1,36 @@
-<div class="ui fixed almacolor inverted menu">
-  <div class="ui fluid container">
-    <div class="item" style="padding-top:0px;padding-bottom:0px;padding-left:5px">
-      <a routerLink="/">
-        <img class="ui image alma-logo" src='assets/img/almalogo.png'>
-      </a>
-        &nbsp;&nbsp;<b>Cluster/ADAPT Interface Tool</b>
-    </div>
-    <a [routerLink]="['/manual']" class="active item"
-       [ngClass]="{'active': router.url.indexOf('/manual') > -1 || (router.url == '/')}">
-      <i class="browser icon"></i> Manual
-    </a>
-    <a [routerLink]="['/pipeline']" class="item"
-       [ngClass]="{'active': router.url.indexOf('/pipeline') > -1}">
-      <i class="wait icon"></i> Pipeline
-    </a>
-    <a [routerLink]="['/assign']" class="item"
-       [ngClass]="{'active': router.url.indexOf('/assign') > -1}">
-      <i class="ordered list icon"></i> Assign
-    </a>
-    <div class="right menu">
-      <div class="ui dropdown item"
-           [ngClass]="{'active': router.url.indexOf('/help') > -1}"
-           suiDropdown>
-        <i class="help icon"></i>
-        Help
-        <i class="dropdown icon"></i>
-        <div class="menu" suiDropdownMenu>
-          <a class="item" href="{{globals.helpURL}}" target="_blank" *ngIf="false">
-            <i class="help icon"></i> User Manual
-          </a>
-          <a class="item" href="mailto:{{globals.helpdeskEmail}}?subject=DRA Tool"> <i class="mail icon"></i> Send us your comments
-          </a>
+<div *ngIf="globals.isDataLoaded" class="app-header vcenter">
+        <div class="col-xs-1 ">
+            <img class="logo" src="assets/img/alma-logo.gif">
         </div>
-      </div>
-      <div class="ui dropdown item" suiDropdown>
-        <i class="user icon"></i>
-        <div *ngIf="! utils.isNullOrUndefined(globals.account)">
-          {{globals.account.firstName}} {{globals.account.lastName}}
+        <div class="col-xs-2">
+            <p class="title">AQUA QA0</p>
         </div>
-        <i class="dropdown icon"></i>
-        <div class="menu" suiDropdownMenu>
-          <div class="item">
-            Version 1.0.0alpha1
-          </div>
-          <div class="item" (click)="logout()">
-            <i class="sign out icon"></i> Logout
-          </div>
-          <a class="item" href="http://asa.alma.cl/UserRegistration/secure/updateAccount.jsp">
-            <i class="setting icon"></i> User profile
-          </a>
+
+    <div class="col-xs-3">
+      <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group" role="group" >
+          <button type="button" id="statusIconsButton" class="btn btn-default" data-toggle="modal" data-target="#help" (click)="getHelp()">Help</button>
+        </div>
+        <div class="btn-group" role="group" >
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img style="height: 18px !important; width: 18px !important;" src="assets/img/avatar.png">
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li class="dropdown-header">
+              {{ getPiFullName() }} </li>
+            <li class="divider"></li>
+            <li class="link" target="_blank">
+              <a href="http://asa.alma.cl/UserRegistration/secure/updateAccount.jsp">
+                My profile
+              </a>
+            </li>
+            <li class="link">
+              <a id="header-logout" (click)="logout()">Logout</a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-  </div>
+
 </div>
-<!-- invisible spacer -->
-<div class="ui main text container">
-  <h1 style="margin-bottom: 0.2em;" class="ui header">SPACER</h1> </div>
+

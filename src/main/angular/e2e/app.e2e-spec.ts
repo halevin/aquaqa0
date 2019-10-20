@@ -1,14 +1,14 @@
-import { AppPage } from './app.po';
+import { SnooPIPage } from './app.po';
 
-describe('template App', () => {
-  let page: AppPage;
+describe('snoo-pi App', () => {
+  let page: SnooPIPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new SnooPIPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getParagraphText()).toEqual('app works!');
   });
 });

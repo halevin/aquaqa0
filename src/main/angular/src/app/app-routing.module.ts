@@ -1,30 +1,24 @@
 import { NgModule }              from '@angular/core';
 import { RouterModule, Routes }  from '@angular/router';
+import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
-//     {
-//       path: 'pipeline',
-//       component: PipelineComponent
-//     },
-//     {
-//       path: 'assign',
-//       component: AssignComponent
-//     },
-//     {
-//       path: 'manual',
-//       component: ManualComponent
-//     },
-//     {
-//       path: '**',
-//       component: ManualComponent
-//     }
+/*    {
+      path: 'project-list/:mode',
+      component: ProjectListComponent
+    },
+*/
+    {
+      path: '**',
+      component: HomeComponent
+    }
   ];
 
   @NgModule({
     imports: [
       RouterModule.forRoot(
         appRoutes,
-        { useHash: true}
+        { useHash: true } // <-- debugging purposes only
       )
     ],
     exports: [

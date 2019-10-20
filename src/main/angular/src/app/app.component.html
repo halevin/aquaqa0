@@ -1,14 +1,15 @@
-<div>
+<div id="page-wrapper" class="{{class}}">
 
-    <div>
+    <navigation-sidebar [sidebarDisplayed]="sidebarDisplayed" (onPressed)="onPressed($event)"></navigation-sidebar>
+        
+    <div class="row">
         <page-header></page-header>
     </div>
 
-    <div class="ui main text container">
-        <h1 style="margin-bottom: 0.2em;" class="ui header"></h1>
-    </div>
 
-    <div style="margin: 1em;">
+    <div class="row">
         <router-outlet></router-outlet>
     </div>
 </div>
+
+<div *ngIf="progressDisplayed" class="spinner centered" style = "display:block;"></div>
