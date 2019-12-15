@@ -6,12 +6,12 @@
     <parent>
         <groupId>alma.obops</groupId>
         <artifactId>obops-spring-boot-master</artifactId>
-        <version>OBOPS-2019.11-SNAPSHOT</version>
+        <version>OBOPS-2020.02-SNAPSHOT</version>
     </parent>
 
     <artifactId>aqua-qa0</artifactId>
     <packaging>jar</packaging>
-    <name>AQUA QA0</name>
+    <name>aqua-qa0</name>
     <description>AQUA QA0</description>
 
     <properties>
@@ -44,32 +44,21 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jeasy</groupId>
-            <artifactId>easy-random-core</artifactId>
-            <version>4.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.vavr</groupId>
-            <artifactId>vavr</artifactId>
-            <version>0.10.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-vavr</artifactId>
-            <version>0.1.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
 
+
+
         <!-- =====================
              ObOps
              ===================== -->
+        <dependency>
+            <groupId>alma.obops</groupId>
+            <artifactId>aqua</artifactId>
+            <version>${obops.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>alma.obops</groupId>
             <artifactId>archivedam</artifactId>
@@ -95,18 +84,6 @@
 		   </exclusions>
 	   </dependency>
 
-        <dependency>
-            <groupId>alma.obops</groupId>
-            <artifactId>asdm-utils</artifactId>
-            <version>${obops.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-jdk14</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        
 		<dependency>
 			<!-- ICT-11089 -->
             <groupId>alma.obops</groupId>
@@ -122,6 +99,7 @@
     </dependencies>
 
     <build>
+
         <resources>
             <resource>
                 <directory>src/main/angular/node_modules</directory>
@@ -149,7 +127,7 @@
                     <systemPropertyVariables>
                         <ACS.data>${basedir}/src/test/resources</ACS.data>
                     </systemPropertyVariables>
-                    <skipTests>false</skipTests>
+                    <skipTests>${skipTests}</skipTests>
                 </configuration>
             </plugin>
 
@@ -185,8 +163,8 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <!-- See https://nodejs.org/en/download/ for latest node and npm (lts) versions -->
-                            <nodeVersion>v8.11.2</nodeVersion>
-                            <npmVersion>6.0.1</npmVersion>
+                            <nodeVersion>v10.15.1</nodeVersion>
+                            <npmVersion>6.13.0</npmVersion>
                         </configuration>
 
                     </execution>

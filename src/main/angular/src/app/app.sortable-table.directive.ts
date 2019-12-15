@@ -8,7 +8,10 @@ import { SortService } from './app.sort-service';
 })
 export class SortableTableDirective implements OnInit, OnDestroy {
 
-  constructor(private sortService: SortService) {}
+    constructor(private sortService: SortService) {}
+
+    @Input('sort-table')
+    tableName: string;
 
     @Output()
     sorted = new EventEmitter();
@@ -16,7 +19,7 @@ export class SortableTableDirective implements OnInit, OnDestroy {
     private columnSortedSubscription: Subscription;
 
     ngOnInit() {
-        this.columnSortedSubscription = this.sortService.columnSorted$.subscribe(event => {
+        this.columnSortedSubscription = this.sortService.columnSorted$.get(parseInt(this.tableName)).subscribe(event => {
             this.sorted.emit(event);
         });
     }

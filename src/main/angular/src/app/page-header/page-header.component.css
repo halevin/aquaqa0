@@ -1,3 +1,4 @@
-.item-font {
-  font-size: 12px;
+.hidden{
+  height: 0px;
+  min-height: 0px;
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AppService} from '../app.service';
-import {Globals} from '../app.globals';
-import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Globals } from '../app.globals';
 
 @Component({
   selector: 'app-home',
@@ -10,52 +9,20 @@ import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  subscription: any;
-  search : string = "Projects";
-  searchString : string;
-  isDesc : boolean = true;
-  column : any;
-  direction : number = 1;
-  private sub:any;
+  constructor(public router:Router, private route : ActivatedRoute, private globals : Globals) { }
 
-  constructor(private appService: AppService, public globals: Globals, private router: Router, private route: ActivatedRoute) { }
+  ngOnInit() {
 
-  ngOnInit():void {
-    this.sub = this.route.params.subscribe(params => {
-      this.globals.mode = params['mode'];
-  });
-//    this.globals.mode = this.globals.modes.pi;
-  }
+    this.route
+    .queryParams
+    .subscribe( params => {
+      console.log(" Params : " + JSON.stringify(params));
+      if ( params != null && params.ebuid != null) {
+        this.globals.currentExecBlockUID = params.ebuid;
+      }
 
-  setSearchProjects(){
-    this.search = "Projects";
-  }
+    })
 
-  setSearchSB(){
-    this.search = "SchedBlocks";
-  }
-
-  sort(property){
-    this.isDesc = !this.isDesc; //change the direction
-    this.column = property;
-    this.direction = this.isDesc ? 1 : -1;
-    //this.sort(this.column);
-  };
-
-  doSearch(){
-    this.globals.searchString = this.searchString;
-    if (this.search=="Projects"){
-      this.router.navigate(['/project-list/'+this.globals.mode+'/'+this.searchString.toLowerCase()]);
-    } else if (this.search=="SchedBlocks"){
-      this.router.navigate(['/sched-blocks/'+this.globals.mode+'/'+this.searchString.toLowerCase()]);
-    }
-  }
-
-  sum( a: number, b: number) : number {
-    if ( a == null && b == null ) return 0;
-    if ( a == null ) return b;
-    if ( b == null ) return a;
-    return (Number(a)+Number(b));
   }
 
 }

@@ -33,7 +33,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 @AutoConfigureAfter(DispatcherServletAutoConfiguration.class)
-public class StaticResourceConfiguration  implements WebMvcConfigurer  {
+public class StaticResourceConfiguration implements WebMvcConfigurer {
 
 	// https://stackoverflow.com/questions/27381781/java-spring-boot-how-to-map-my-my-app-root-to-index-html
 	@Override

@@ -1,21 +1,35 @@
+/*******************************************************************************
+ * ALMA - Atacama Large Millimeter Array
+ * Copyright (c) ESO - European Southern Observatory, 2018
+ * (in the framework of the ALMA collaboration).
+ * All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
+ *******************************************************************************/
+
 package alma.obops.aqua.qa0.configuration;
 
-import java.util.HashMap;
-
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 
+import alma.obops.utils.config.RelationalDbConfig;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.model.naming.ImplicitNamingStrategy;
-import org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
-import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +43,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import alma.obops.utils.config.RelationalDbConfig;
+import java.beans.PropertyVetoException;
+import java.util.HashMap;
 
 /**
  * Configure the application's data source according to ALMA's conventions, e.g.
@@ -47,27 +62,33 @@ public class AlmaDataSourceConfiguration {
 	
 	@Autowired
 	Environment env;
-	
+
 	@Bean
-	@ConfigurationProperties(prefix="spring.datasource")
-	public DataSource dataSource() {
+	@Primary
+	public ComboPooledDataSource dataSource() {
+		ComboPooledDataSource dataSource = new ComboPooledDataSource();
+		try {
+			dataSource.setDriverClass(dbConfig().getDriver());
+		} catch (PropertyVetoException e) {
+			e.printStackTrace();
+		}
+		dataSource.setPassword(dbConfig().getPassword());
+		dataSource.setUser(dbConfig().getUsername());
+		dataSource.setJdbcUrl(dbConfig().getConnectionUrl());
+		dataSource.setMinPoolSize(1);
+		dataSource.setMaxPoolSize(10);
+		dataSource.setMaxConnectionAge(1800);
+		dataSource.setMaxIdleTimeExcessConnections(300);
+		dataSource.setMaxStatements(0);
+		dataSource.setMaxStatementsPerConnection(0);
+		dataSource.setNumHelperThreads(6);
+		dataSource.setTestConnectionOnCheckout(true);
 
-        String url      = env.getProperty( "archive.relational.connection" );
-		String username = env.getProperty( "archive.relational.user" );
-		String password = env.getProperty( "archive.relational.passwd" );
+		if (logger.isInfoEnabled()) {
+			logger.info("Data Source created. " + dataSource.toString(true));
+		}
 
-		logger.info( "Database URL : " + url );
-		logger.info( "Database user: " + username );
-
-		java.util.Properties props = new java.util.Properties();
-		props.put("v$session.program", "SnooPI");
-
-		return DataSourceBuilder
-		        .create()
-		        .username( username )
-		        .password( password )
-		        .url( url )
-		        .build();
+		return dataSource;
 	}
 
 	@Bean
@@ -80,16 +101,10 @@ public class AlmaDataSourceConfiguration {
 		return emf.unwrap(SessionFactory.class);
 	}
 
-//	@Bean
-//	public PhysicalNamingStrategy physicalNamingStrategy() {
-//		return new SpringPhysicalNamingStrategy();
-////		return new PhysicalNamingStrategyStandardImpl();
-//	}
-
-//	@Bean
-//	public ImplicitNamingStrategy implicitNamingStrategy() {
-//		return new ImplicitNamingStrategyLegacyHbmImpl();
-//	}
+	@Bean
+	public PhysicalNamingStrategy physicalNamingStrategy() {
+		return new SpringPhysicalNamingStrategy();
+	}
 
 	@Bean
 	@Primary
@@ -106,10 +121,17 @@ public class AlmaDataSourceConfiguration {
 
 		factory.setJpaVendorAdapter(vendorAdapter);
 		factory.setPackagesToScan(
-				"alma.obops.aqua", 
-				"alma.obops.dam", 
-				"alma.lifecycle",
-				"alma.obops.boot.security");
+				"alma.obops.aqua.qa0",
+				"alma.obops.boot.security",
+				"alma.obops.aqua.domain",
+				"alma.lifecycle.persistence.domain",
+				"alma.obops.dam.apdm.domain",
+				"alma.obops.dam.userreg.domain",
+				"alma.obops.ocd.domain"
+//				"alma.acs.tmcdb",
+//				"alma.obops.reporting.security",
+//				"alma.obops.dam.shiftlog.domain"
+		);
 		factory.setDataSource(dataSource());
 		factory.afterPropertiesSet();
 
@@ -120,6 +142,5 @@ public class AlmaDataSourceConfiguration {
 	public PlatformTransactionManager transactionManager(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 		return new JpaTransactionManager(sessionFactory);
 	}
-
 }
 

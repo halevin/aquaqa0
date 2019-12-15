@@ -1,8 +1,149 @@
-<div class="row" >
-  <div id="stat-widget-pi-projects" class="col-lg-3 col-md-6 col-xs-12">
-    <info-widget [title]=""
-      [icon]="'fa fa-sitemap'" [iconcolor]="'green'" [link]="'/project-list/'+globals.mode">
-    </info-widget>
-  </div>
-</div>
+<div style="padding: 20px; margin: 20px;">
 
+    <div class="row row-cols-5 row-cols-md-3 row-cols-sm-2 row-cols-xs-1">
+
+        <div class="col mb-4" style="height: 10rem;">
+            <div class="card border-primary h-100" style="width: 18rem;">
+                <div class="card-header">Summay</div>
+                <div class="card-body">
+                    <h5 class="card-title">QA0 Pass</h5>
+                    <p class="card-text">Small issues reported.<br /> 2 comments</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col mb-4" style="height: 10rem;">
+            <div class="card border-success h-100" style="width: 18rem; height: 10rem;">
+                <a routerLink="/sources" class="item"
+                    [ngClass]="{'active': router.url.indexOf('/sources') > -1 || (router.url == '/')}">
+                    <div class="card-header">Atmosphere</div>
+                    <div class="card-body">
+                        <h5 class="card-title">4 plots</h5>
+                        <p class="card-text"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col mb-4" style="height: 10rem;">
+            <div class="card border-success h-100" style="width: 18rem;">
+                <a routerLink="/sources" class="item"
+                    [ngClass]="{'active': router.url.indexOf('/sources') > -1 || (router.url == '/')}">
+                    <div class="card-header">Phase</div>
+                    <div class="card-body">
+                        <h5 class="card-title">4 plots</h5>
+                        <p class="card-text"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col mb-4" style="height: 10rem;">
+            <div class="card border-success h-100" style="width: 18rem;">
+                <a routerLink="/sources" class="item"
+                    [ngClass]="{'active': router.url.indexOf('/sources') > -1 || (router.url == '/')}">
+                    <div class="card-header">Sources</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Mosaic</h5>
+                        <p class="card-text">100% coverage.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col mb-4" style="height: 10rem;">
+            <div class="card border-success h-100" style="width: 18rem;">
+                <a routerLink="/sources" class="item"
+                    [ngClass]="{'active': router.url.indexOf('/sources') > -1 || (router.url == '/')}">
+                    <div class="card-header">Pointing</div>
+                    <div class="card-body">
+                        <h5 class="card-title">4 plots</h5>
+                        <p class="card-text"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col mb-4" style="height: 10rem;">
+            <div class="card border-success h-100" style="width: 18rem;">
+                <a routerLink="/sources" class="item"
+                    [ngClass]="{'active': router.url.indexOf('/sources') > -1 || (router.url == '/')}">
+                    <div class="card-header">Baselines</div>
+                    <div class="card-body">
+                        <h5 class="card-title">4 plots</h5>
+                        <p class="card-text"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col mb-4" style="height: 10rem;">
+            <div class="card border-success h-100" style="width: 18rem;">
+                <a routerLink="/sources" class="item"
+                    [ngClass]="{'active': router.url.indexOf('/sources') > -1 || (router.url == '/')}">
+                    <div class="card-header">Antennas</div>
+                    <div class="card-body">
+                        <h5 class="card-title">4 plots</h5>
+                        <p class="card-text"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col mb-4" style="height: 10rem;">
+            <div class="card border-success h-100" style="width: 18rem;">
+                <a routerLink="/sources" class="item"
+                    [ngClass]="{'active': router.url.indexOf('/sources') > -1 || (router.url == '/')}">
+                    <div class="card-header">Calibrations</div>
+                    <div class="card-body">
+                        <h5 class="card-title">4 plots</h5>
+                        <p class="card-text"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col mb-4" style="height: 10rem;">
+            <div class="card border-success h-100" style="width: 18rem;">
+                <a routerLink="/sources" class="item"
+                    [ngClass]="{'active': router.url.indexOf('/sources') > -1 || (router.url == '/')}">
+                    <div class="card-header">Amplitude</div>
+                    <div class="card-body">
+                        <h5 class="card-title">4 plots</h5>
+                        <p class="card-text"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col mb-4" style="height: 10rem;">
+            <div class="card border-success h-100" style="width: 18rem;">
+                <a routerLink="/sources" class="item"
+                    [ngClass]="{'active': router.url.indexOf('/sources') > -1 || (router.url == '/')}">
+                    <div class="card-header">Bandpass</div>
+                    <div class="card-body">
+                        <h5 class="card-title">4 plots</h5>
+                        <p class="card-text"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col mb-4" style="height: 10rem;">
+            <div class="card border-success h-100" style="width: 18rem; height: 18rem;">
+                <a routerLink="/sources" class="item"
+                    [ngClass]="{'active': router.url.indexOf('/sources') > -1 || (router.url == '/')}">
+                    <div class="card-header">QA0 Flags</div>
+                    <div class="card-body">
+                        <h5 class="card-title">4 plots</h5>
+                        <p class="card-text"></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>

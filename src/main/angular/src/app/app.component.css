@@ -1,0 +1,16 @@
+.text-nowrap {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap !important;;
+}
+
+
+.centered {
+  position:fixed;
+  z-index: 100;
+  top:40%;
+  left:50%;
+  margin:-100px 0 0 -100px;
+  opacity: 0.5;
+}

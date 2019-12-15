@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "snoo-pi": {
+    "dra-tool": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -21,6 +21,7 @@
               "src/favicon.ico"
             ],
             "styles": [
+              "src/assets/css/angular-calendar.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -48,18 +49,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "snoo-pi:build"
+            "browserTarget": "dra-tool:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "snoo-pi:build:production"
+              "browserTarget": "dra-tool:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "snoo-pi:build"
+            "browserTarget": "dra-tool:build"
           }
         },
         "test": {
@@ -71,6 +72,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
             "styles": [
+              "src/assets/css/angular-calendar.css",
               "src/styles.css"
             ],
             "assets": [
@@ -86,12 +88,14 @@
               "src/tsconfig.app.json",
               "src/tsconfig.spec.json"
             ],
-            "exclude": []
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
     },
-    "snoo-pi-e2e": {
+    "dra-tool-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -100,7 +104,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "snoo-pi:serve"
+            "devServerTarget": "dra-tool:serve"
           }
         },
         "lint": {
@@ -109,13 +113,15 @@
             "tsConfig": [
               "e2e/tsconfig.e2e.json"
             ],
-            "exclude": []
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
     }
   },
-  "defaultProject": "snoo-pi",
+  "defaultProject": "dra-tool",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

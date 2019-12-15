@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SortableColumnComponentComponent } from './sortable-column-component.component';
+import { SortableColumnComponent } from './sortable-column.component';
 
 describe('SortableColumnComponentComponent', () => {
-  let component: SortableColumnComponentComponent;
-  let fixture: ComponentFixture<SortableColumnComponentComponent>;
+  let component: SortableColumnComponent;
+  let fixture: ComponentFixture<SortableColumnComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SortableColumnComponentComponent ]
+      declarations: [ SortableColumnComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SortableColumnComponentComponent);
+    fixture = TestBed.createComponent(SortableColumnComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

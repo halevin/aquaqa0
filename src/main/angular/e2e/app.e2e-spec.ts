@@ -1,14 +1,14 @@
-import { SnooPIPage } from './app.po';
+import { AppPage } from './app.po';
 
-describe('snoo-pi App', () => {
-  let page: SnooPIPage;
+describe('dra-tool App', () => {
+  let page: AppPage;
 
   beforeEach(() => {
-    page = new SnooPIPage();
+    page = new AppPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getParagraphText()).toEqual('Welcome to app!');
   });
 });

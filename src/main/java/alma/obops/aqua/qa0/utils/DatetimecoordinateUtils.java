@@ -1,25 +1,27 @@
 /*******************************************************************************
  * ALMA - Atacama Large Millimeter Array
- * Copyright (c) ESO - European Southern Observatory, 2011
+ * Copyright (c) ESO - European Southern Observatory, 2018
  * (in the framework of the ALMA collaboration).
  * All rights reserved.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
  *******************************************************************************/
 
 package alma.obops.aqua.qa0.utils;
+
+import alma.obops.utils.DateUtilsLite;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -364,22 +366,6 @@ public class DatetimecoordinateUtils {
     }
 
     /**
-     * @param date
-     *            The initial date of the Calendar; if <code>null</code> it
-     *            defaults to the current time and date.
-     * 
-     * @return A Calendar instance preset to UT and the given date.
-     */
-    public static Calendar getCalendar( Date date ) {
-        if( date == null ) {
-            date = new Date();
-        }
-        Calendar calendar = Calendar.getInstance( UT );
-        calendar.setTime( date );
-        return calendar;
-    }
-
-    /**
      * @param timeZone
      *            The time zone the returned Calendar should operate in.
      * @param date
@@ -391,7 +377,7 @@ public class DatetimecoordinateUtils {
      */
     public static Calendar getCalendar( TimeZone timeZone, Date date ) {
         if( date == null ) {
-            date = new Date();
+            date = DateUtilsLite.getNowUT();
         }
         Calendar calendar = Calendar.getInstance( timeZone );
         calendar.setTime( date );

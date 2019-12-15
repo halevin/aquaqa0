@@ -20,7 +20,7 @@
 #*******************************************************************************
 
 include ../../Makefile.prototype
-APPLICATION=snoopi
+APPLICATION=dra-tool
 APP_TYPE=jar
 
 #
@@ -29,7 +29,7 @@ APP_TYPE=jar
 
 clean: l_clean p_clean
 
-all: p_all
+all: p_buildinfo p_all
 
 install: p_install l_install
 

@@ -1,13 +1,13 @@
 import { NgModule }              from '@angular/core';
 import { RouterModule, Routes }  from '@angular/router';
+import { SourcesComponent } from './sources/sources.component';
 import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
-/*    {
-      path: 'project-list/:mode',
-      component: ProjectListComponent
+    {
+      path: 'sources',
+      component: SourcesComponent
     },
-*/
     {
       path: '**',
       component: HomeComponent
@@ -18,7 +18,7 @@ const appRoutes: Routes = [
     imports: [
       RouterModule.forRoot(
         appRoutes,
-        { useHash: true } // <-- debugging purposes only
+        { useHash: true}
       )
     ],
     exports: [

@@ -21,9 +21,6 @@
 
 package alma.obops.aqua.qa0.security;
 
-import alma.obops.aqua.qa0.security.cas.AlmaCasUserDetailsService;
-import alma.obops.boot.security.AlmaUserDetailsService;
-
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +28,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.cas.ServiceProperties;
-import org.springframework.security.cas.authentication.CasAssertionAuthenticationToken;
 import org.springframework.security.cas.authentication.CasAuthenticationProvider;
 import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
 import org.springframework.security.cas.web.CasAuthenticationFilter;
@@ -44,6 +40,9 @@ import org.springframework.security.core.userdetails.AuthenticationUserDetailsSe
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
+import alma.obops.boot.security.AlmaUserDetailsService;
+
+
 /**
  * Spring Security Configuration, adapted from
  * https://objectpartners.com/2014/05/20/configuring-spring-security-cas-providers-with-java-config
@@ -54,11 +53,10 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 @Configuration
 @EnableWebSecurity
 @PropertySource("file:${ACSDATA}/config/obopsConfig.properties")
-//@Order(101)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Value("${obops.public.protrack.rest.server.url}")
-	private String snoopiURL;
+	@Value("${obops.aqua.qa0.rest.server.url}")
+	private String aquaQa0URL;
 
 	@Value("${cas.url}")
 	private String casURL;
@@ -66,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public ServiceProperties serviceProperties() {
 		ServiceProperties serviceProperties = new ServiceProperties();
-		serviceProperties.setService(snoopiURL + "/j_spring_cas_security_check");
+		serviceProperties.setService(aquaQa0URL + "/j_spring_cas_security_check");
 		serviceProperties.setSendRenew(false);
 		return serviceProperties;
 	}
@@ -83,8 +81,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public AuthenticationUserDetailsService<CasAssertionAuthenticationToken> authenticationUserDetailsService() {
-		return new AlmaCasUserDetailsService();
+	public AuthenticationUserDetailsService<Authentication> authenticationUserDetailsService() {
+		return new AlmaUserDetailsService();
 	}
 
 	@Bean
@@ -134,17 +132,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/restapi/login-check").authenticated()
 				.antMatchers("/restapi/account/**").permitAll()
 				.antMatchers("/restapi/do-logout/**").authenticated()
-				.antMatchers("/restapi/projects/**").authenticated()
-				.antMatchers("/restapi/project/**").authenticated()
-				.antMatchers("/restapi/proposal/**").authenticated()
-				.antMatchers("/restapi/schedblock/**").authenticated()
-				.antMatchers("/restapi/schedblocks/**").authenticated()
-				.antMatchers("/restapi/execblock/**").authenticated()
-				.antMatchers("/restapi/statechanges/**").authenticated()
-				.antMatchers("/restapi/obsunitset/**").authenticated()
-				.antMatchers("/restapi/statistics/**").authenticated()
-				.antMatchers("/restapi/tickets/**").authenticated()
-				.antMatchers("/restapi/news/**").authenticated()
+				.antMatchers("/restapi/dr/**").hasAnyAuthority( "OBOPS/DRM" )
+				.antMatchers("/restapi/drinfo/**").hasAnyAuthority( "OBOPS/QAA" )
+				.antMatchers("/restapi/availability/**").hasAnyAuthority( "OBOPS/QAA" )
+				.antMatchers("/restapi/public/**").authenticated()
+				.antMatchers("/restapi/search/**").authenticated()
+				.antMatchers("/restapi/filters/**").authenticated()
+				.antMatchers("/restapi/comment/**").authenticated()
+				.antMatchers("/restapi/savefilter/**").authenticated()
+				.antMatchers("/restapi/deletefilter/**").authenticated()
 				.antMatchers("/**").authenticated()
 		.and().csrf()
 //				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
