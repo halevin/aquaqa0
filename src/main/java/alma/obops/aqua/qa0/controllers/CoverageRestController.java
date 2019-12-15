@@ -55,9 +55,6 @@ public class CoverageRestController {
 	private SourceCoverageCalculator sourceCoverageCalculator;
 
 	@Autowired
-	private AsdmDao asdmDao;
-
-	@Autowired
 	private AsdmService asdmService;
 
 	protected Logger logger = Logger.getLogger( this.getClass().getSimpleName() );
@@ -81,10 +78,11 @@ public class CoverageRestController {
 			return null;
 		}
 
-		logger.info(" Coverage for EB " + execBlockUIDNormalized);
 
 		if ( execBlockUIDNormalized != null ) {
 			String execBlockUID = execBlockUIDNormalized.replace("___", "://").replaceAll("_", "/");
+
+			logger.info(" Coverage for EB " + execBlockUID);
 
 			AsdmUids asdmUids = asdmService.getAsdmUids(execBlockUID);
 			if (asdmUids == null) {
@@ -95,6 +93,9 @@ public class CoverageRestController {
 			AsdmTables asdmTables = asdmService.initializeAsdm(asdmUids, false);
 
 			Set<SourceCoverage> coverages = sourceCoverageCalculator.getCoverage(execBlockUID, asdmTables);
+
+			logger.info(" Found  " + coverages.size()+" coverages");
+
 
 			return coverages;
 

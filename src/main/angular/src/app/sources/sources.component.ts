@@ -22,7 +22,7 @@ noData(Highcharts);
 })
 export class SourcesComponent implements OnInit {
 
-  public data: any;
+  public data: any = [];
 
 
 
@@ -43,8 +43,21 @@ export class SourcesComponent implements OnInit {
 
       })
 
+      let self = this;
 
-    this.testPlot();
+      this.service.getCoverageLoadedEmitter().subscribe(item => {
+            this.globals.coverages.forEach( e => {
+              e.observedFields.forEach(element => {
+                self.data.push([element.ra,element.dec]);
+              });
+            })
+        
+            Highcharts.chart('container', this.getOptions(self.data));
+          }
+        )
+
+
+//    this.testPlot();
 
 
   }
@@ -66,7 +79,7 @@ export class SourcesComponent implements OnInit {
     }
 
     console.time('scatter');
-    Highcharts.chart('container', this.getOptions());
+    Highcharts.chart('container', this.getOptions(this.data));
     console.timeEnd('scatter');
 
 
@@ -74,7 +87,7 @@ export class SourcesComponent implements OnInit {
 
   }
 
-  getOptions(): any {
+  getOptions(points): any {
     return {
       chart: {
         zoomType: 'xy',
@@ -87,15 +100,15 @@ export class SourcesComponent implements OnInit {
       },
 
       xAxis: {
-        min: 0,
-        max: 100,
+        min: 12.5,
+        max: 12.6,
         gridLineWidth: 1
       },
 
       yAxis: {
         // Renders faster when we don't have to compute min and max
-        min: 0,
-        max: 100,
+        min: 6.32,
+        max: 6.39,
         minPadding: 0,
         maxPadding: 0,
         title: {
@@ -113,10 +126,10 @@ export class SourcesComponent implements OnInit {
 
       series: [{
         type: 'scatter',
-        color: 'rgba(152,0,67,0.1)',
-        data: this.data,
+        color: 'rgba(152,100,67,0.9)',
+        data: points,
         marker: {
-          radius: 0.5
+          radius: 1.5
         },
         tooltip: {
           followPointer: false,

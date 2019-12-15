@@ -5,19 +5,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {Globals} from './app.globals';
 
-import {DataReducer} from "./datareducer";
-import {Availability} from "./availability";
-import {QA2DashboardEntry} from "./qa2dashboardentry";
 import {Utils} from "./app.utils";
-import {endOfDay, startOfDay} from 'date-fns';
-import {Day} from "./day";
 import {Qa2DashboardGlobals} from "./app.qa2dashboard.globals";
-import {QA2DashboardFilter} from "./qa2dfilter";
 import {PropCount} from "./propcount";
-import {TimeStatistic} from "./timestatistic";
-import {Counter} from "./counter";
-import {TimestatStatus} from "./timestatstatus";
-import {HasDate} from "./hasdate";
 
 
 @Injectable()
@@ -31,6 +21,9 @@ export class AppService {
   accountSelected: EventEmitter<number> = new EventEmitter();
   activatedAsDR: EventEmitter<number> = new EventEmitter();
   deletedFromDR: EventEmitter<number> = new EventEmitter();
+
+  coverageLoaded: EventEmitter<number> = new EventEmitter();
+
 
 	private params = new URLSearchParams();
 
@@ -170,6 +163,11 @@ setCookie( name: string, value:string, domain:string, path:string ) {
     return this.loadingOff;
   }
 
+  getCoverageLoadedEmitter() {
+    return this.coverageLoaded;
+  }
+
+
   getCoverages(execBlockUID : string): void {
     if ( execBlockUID != null ) {
       let excBlockUIDNormalized = this.utils.replaceAll(this.utils.replaceAll(execBlockUID, "://","___"),"/","_");
@@ -226,6 +224,7 @@ setCookie( name: string, value:string, domain:string, path:string ) {
 	private extractCoverages(res: any) {
     this.globals.coverages = res;
     console.log("Coveragess " + JSON.stringify(res));
+    this.getCoverageLoadedEmitter().emit();
   }
 
   private extractSettings(res: any) {

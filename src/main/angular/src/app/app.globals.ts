@@ -92,7 +92,7 @@ export class Globals {
 
     // Data
     statistics = {};
-    coverages = {};
+    coverages = [];
 
     currentExecBlockUID : string;
 
