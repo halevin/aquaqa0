@@ -34,12 +34,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(scanBasePackages = {
         "alma.obops.aqua.qa0",
+        "alma.obops.aqua.service",
+        "alma.obops.aqua.dao",
+        "alma.asdm.service",
+        "alma.asdm.dao",
         "alma.obops.dam.apdm.dao",
         "alma.obops.dam.apdm.service",
-        "alma.lifecycle.persistence",
+        "alma.lifecycle",
         "alma.obops.dam.userreg",
         "alma.obops.ocd.domain"})
-@EntityScan( basePackages = {"alma.obops.aqua.qa0", "alma.obops.boot", "alma.obops.ocd.domain"} )
+@EntityScan( basePackages = {"alma.obops.aqua.qa0", "alma.obops.aqua.domain", "alma.asdm.domain", "alma.obops.boot", "alma.obops.ocd.domain"} )
 @EnableJpaRepositories(basePackages= {"alma.obops.aqua.qa0", "alma.obops.boot", "alma.obops.ocd.domain"})
 @EnableCaching
 @EnableTransactionManagement

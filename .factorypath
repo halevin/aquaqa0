@@ -24,7 +24,6 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/httpcomponents/httpcore/4.4.10/httpcore-4.4.10.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/commons-codec/commons-codec/1.11/commons-codec-1.11.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/h2database/h2/1.4.197/h2-1.4.197.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/alma/obops/aqua/OBOPS-2020.02-SNAPSHOT/aqua-OBOPS-2020.02-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/alma/icd/sensitivity-calculator-core/2019.08-SNAPSHOT/sensitivity-calculator-core-2019.08-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/alma/icd/adapt/adapt-messages/2019.06-SNAPSHOT/adapt-messages-2019.06-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/alma/icd/adapt/message-bus-core/2019.06-SNAPSHOT/message-bus-core-2019.06-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>

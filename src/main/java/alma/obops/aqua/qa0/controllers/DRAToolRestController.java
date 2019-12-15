@@ -49,7 +49,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -83,22 +82,7 @@ public class DRAToolRestController {
 	private UserDao userDao;
 
 	@Autowired
-	private DataReducerDao dataReducerDao;
-
-	@Autowired
-	private DataReducerRepository dataReducerRepository;
-
-	@Autowired
 	private UrlConfiguration obopsConfig;
-
-	@Autowired
-	private ArcNodeDao arcNodeDao;
-
-	@Autowired
-	private CycleDao cycleDao;
-
-	@Autowired
-	private AvailabilityDao availabilityDao;
 
 	protected Logger logger = Logger.getLogger( this.getClass().getCanonicalName() );
 
@@ -169,9 +153,6 @@ public class DRAToolRestController {
 		settings.put("aquaURL", aquaURL + (aquaURL.endsWith("/")?"":"/"));
 		settings.put("protrackURL", protrackURL + (protrackURL.endsWith("/")?"":"/"));
 		settings.put("jiraURL", jiraURL + (jiraURL.endsWith("/")?"":"/"));
-		settings.put("states", DRAToolConstants.qa2DashboardStates);
-		settings.put("substates", DRAToolConstants.qa2DashboardSubstates);
-		settings.put("cycles", cycleDao.findAllCodes());
 
 		return settings;
 	}
@@ -218,183 +199,6 @@ public class DRAToolRestController {
 		}
 
 		return t;
-	}
-
-	@RequestMapping(value = "/account/{name}")
-	@ResponseBody
-	public Object getUsers( HttpServletRequest request, @PathVariable("name") String name) throws Exception {
-
-		Principal p = request.getUserPrincipal();
-		if (p == null) {
-			return null;
-		}
-
-		List<User> accounts = userDao.findByString(name);
-		logger.warning(" Returning accounts " + accounts.size());
-		List<DTDataReducer> drList = dataReducerRepository.findDataReducers(null, null, null, null, false);
-		logger.warning(" Returning data reducers " + drList.size());
-		for ( User user : accounts ) {
-			user.setIsDataReducer(DRAToolUtils.isDataReducer(drList, user.getUsername()));
-		}
-
-		return accounts;
-	}
-
-	@CrossOrigin
-	@RequestMapping(value = "/dr", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity setDataReducer(HttpServletRequest request, @RequestBody DataReducerJsonModel drModel) throws Exception {
-		logger.warning(" setDataReducer " + drModel);
-
-
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (! authentication.isAuthenticated() || ! authentication.getAuthorities().contains(new SimpleGrantedAuthority("OBOPS/DRM"))) {
-			logger.warning(" no authority ");
-			return new ResponseEntity(HttpStatus.FORBIDDEN);
-		}
-
-
-		if ( drModel != null && drModel.getUserId() != null ) {
-			String userId = drModel.getUserId();
-
-			User user = userDao.findById(userId).orElse(null);
-			logger.warning(" user " + user);
-			if ( user != null ) {
-				DTDataReducer dr = dataReducerDao.findByUserId(userId);
-				if ( dr == null ) { dr = new DTDataReducer();}
-				dr.setUserId(userId);
-				DTArcNode arcNode = arcNodeDao.findByArcAndNode(drModel.getDrArc(), drModel.getDrNode());
-				if (arcNode != null && arcNode.getNode() == null ) {
-					arcNode.setNode("");
-				}
-				dr.setArcNode(arcNode);
-				dr.setQualifications(drModel.getQualifications());
-				dataReducerDao.save(dr);
-			} else {
-				return new ResponseEntity(HttpStatus.FORBIDDEN);
-			}
-		}
-
-		return new ResponseEntity(HttpStatus.OK);
-	}
-
-	@CrossOrigin
-	@RequestMapping(value = "/dr/{userId}", method = RequestMethod.DELETE)
-	public ResponseEntity deleteDataReducer(HttpServletRequest request, @PathVariable("userId") String userId) throws Exception {
-		logger.warning(" deleteDataReducer " + userId);
-
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (! authentication.isAuthenticated() || ! authentication.getAuthorities().contains(new SimpleGrantedAuthority("OBOPS/DRM"))) {
-			logger.warning(" no authority ");
-			return new ResponseEntity(HttpStatus.FORBIDDEN);
-		}
-
-		DTDataReducer dr = dataReducerDao.findById(userId).orElse(null);
-
-		logger.warning(" DTDataReducer exists " + dr);
-
-		if ( userId != null ) {
-			List<Availability> availabilities = availabilityDao.findByUserIdOrderByDateStartDesc(dr.getUserId());
-			for (Availability av : availabilities ) {
-				availabilityDao.delete(av);
-			}
-			dataReducerDao.deleteById(userId);
-		} else {
-			return new ResponseEntity(HttpStatus.FORBIDDEN);
-		}
-
-		return new ResponseEntity(HttpStatus.OK);
-	}
-
-	@CrossOrigin
-	@RequestMapping(value = "/dr")
-	@ResponseBody
-	public List<DTDataReducer> findDataReducers(HttpServletRequest request,
-												@RequestParam(value = "userId", required = false) String userId,
-												@RequestParam(value = "drArc", required = false) String arc,
-												@RequestParam(value = "drNode", required = false) String node,
-												@RequestParam(value = "qualifications", required = false) Set<String> qualifications) throws Exception {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (! authentication.isAuthenticated()) {
-			return null;
-		}
-
-		List<DTDataReducer> drList = dataReducerRepository.findDataReducers(userId, arc, node, qualifications, false);
-
-		logger.info(" Found "+ drList.size() +" data reducers ");
-
-		return drList;
-	}
-
-	@RequestMapping(value = "/drinfo")
-	@ResponseBody
-	public DTDataReducer dataReducerInfo(HttpServletRequest request) throws Exception {
-
-
-		Principal p = request.getUserPrincipal();
-		if (p == null) {
-			return null;
-		}
-
-		String drID = p.getName();
-
-		DTDataReducer dr = dataReducerDao.findById(drID).orElse(null);
-
-		logger.info(" Found data reducer " + dr);
-
-		return dr;
-	}
-
-	@RequestMapping(value = "/avail")
-	@ResponseBody
-	public List<DTDataReducer> getAvailability(HttpServletRequest request,
-											   @RequestParam(value = "drArc", required = false) String arc,
-											   @RequestParam(value = "drNode", required = false) String node,
-											   @RequestParam(value = "qualifications", required = false) Set<String> qualifications) throws Exception {
-
-		Principal p = request.getUserPrincipal();
-		if (p == null) {
-			return null;
-		}
-
-		List<DTDataReducer> drList = dataReducerRepository.findDataReducers(null, arc, node, qualifications, true);
-		logger.info(" Found "+ drList.size() +" availability records ");
-		return drList;
-	}
-
-	@CrossOrigin
-	@RequestMapping(value = "/avail", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity setAvailability(HttpServletRequest request, @RequestBody Availability availability) throws Exception {
-		logger.warning(" setAvailability " + availability);
-
-
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (! authentication.isAuthenticated() || ! authentication.getAuthorities().contains(new SimpleGrantedAuthority("OBOPS/QAA"))) {
-			logger.warning(" no authority ");
-			return null;
-		}
-
-
-		if ( availability != null && availability.getUserId() != null ) {
-			availabilityDao.save(availability);
-		}
-
-		return new ResponseEntity(HttpStatus.OK);
-	}
-
-	@CrossOrigin
-	@RequestMapping(value = "/avail/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity deleteAvailability(HttpServletRequest request, @PathVariable("id") Long id) throws Exception {
-		logger.warning(" availability ID " + id);
-
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (! authentication.isAuthenticated() || ! authentication.getAuthorities().contains(new SimpleGrantedAuthority("OBOPS/QAA"))) {
-			logger.warning(" no authority ");
-			return null;
-		}
-
-		availabilityDao.deleteById(id);
-
-		return new ResponseEntity(HttpStatus.OK);
 	}
 
 }

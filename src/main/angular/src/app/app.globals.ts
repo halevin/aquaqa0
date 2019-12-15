@@ -118,9 +118,9 @@ export class Globals {
       ARCNodes.set('JAO', NodesJAO);
 
       if ( this.developmentMode ) {
-        this.restServerURL = 'http://ga018573.ads.eso.org:10000/dra-tool/restapi';
+        this.restServerURL = 'http://ga018573.ads.eso.org:10000/aqua-qa0/restapi';
       } else {
-        this.restServerURL = '/dra-tool/restapi'; // production version
+        this.restServerURL = '/aqua-qa0/restapi'; // production version
       }
 
     }

@@ -21,87 +21,46 @@
 
 package alma.obops.aqua.qa0.controllers;
 
-import java.io.IOException;
-import java.net.URLDecoder;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import alma.asdm.AsdmTables;
+import alma.asdm.AsdmUids;
+import alma.asdm.dao.AsdmDao;
 import alma.asdm.domain.SourceCoverage;
-import alma.obops.aqua.qa0.DRAToolConstants;
-import alma.obops.aqua.qa0.configuration.UrlConfiguration;
-import alma.obops.aqua.qa0.domain.Availability;
-import alma.obops.aqua.qa0.domain.DTArcNode;
-import alma.obops.aqua.qa0.domain.DTDataReducer;
-import alma.obops.aqua.qa0.domain.DataReducerJsonModel;
-import alma.obops.aqua.qa0.persistence.ArcNodeDao;
-import alma.obops.aqua.qa0.persistence.AvailabilityDao;
-import alma.obops.aqua.qa0.persistence.CycleDao;
-import alma.obops.aqua.qa0.persistence.DataReducerDao;
-import alma.obops.aqua.qa0.persistence.DataReducerRepository;
-import alma.obops.aqua.qa0.utils.DRAToolUtils;
-import alma.obops.boot.security.User;
-import alma.obops.boot.security.UserDao;
+import alma.asdm.service.AsdmService;
+import alma.obops.aqua.service.SourceCoverageCalculator;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/restapi")
 public class CoverageRestController {
 
-	private static final String ENCODING = "UTF-8";
-	private static final String RETURN_URL_COOKIE = "return-url";
-
 	@Autowired
 	Environment env;
 
 	@Autowired
-	private UserDao userDao;
+	private SourceCoverageCalculator sourceCoverageCalculator;
 
 	@Autowired
-	private DataReducerDao dataReducerDao;
+	private AsdmDao asdmDao;
 
 	@Autowired
-	private DataReducerRepository dataReducerRepository;
+	private AsdmService asdmService;
 
-	@Autowired
-	private UrlConfiguration obopsConfig;
-
-	@Autowired
-	private ArcNodeDao arcNodeDao;
-
-	@Autowired
-	private CycleDao cycleDao;
-
-	@Autowired
-	private AvailabilityDao availabilityDao;
-
-	protected Logger logger = Logger.getLogger( this.getClass().getCanonicalName() );
+	protected Logger logger = Logger.getLogger( this.getClass().getSimpleName() );
 
 	public CoverageRestController() {
 	}
@@ -111,10 +70,10 @@ public class CoverageRestController {
 		// no-op
 	}
 
-	@RequestMapping(value = "/covergares/{eb_uid}")
+	@RequestMapping(value = "/coverages/{eb_uid}")
 	@ResponseBody
-	public ResponseEntity covergares(HttpServletRequest request,
-			@PathVariable("eb_uid") String execBlockUID) throws Exception {
+	public Set<SourceCoverage> coverages(HttpServletRequest request,
+			@PathVariable("eb_uid") String execBlockUIDNormalized) throws Exception {
 
 
 		Principal p = request.getUserPrincipal();
@@ -122,9 +81,26 @@ public class CoverageRestController {
 			return null;
 		}
 
-		logger.info(" Coverage for EB " + execBlockUID);
+		logger.info(" Coverage for EB " + execBlockUIDNormalized);
 
-		return new ResponseEntity(HttpStatus.OK);
+		if ( execBlockUIDNormalized != null ) {
+			String execBlockUID = execBlockUIDNormalized.replace("___", "://").replaceAll("_", "/");
+
+			AsdmUids asdmUids = asdmService.getAsdmUids(execBlockUID);
+			if (asdmUids == null) {
+				logger.warning("Cannot read ASDM table");
+				return null;
+			}
+	
+			AsdmTables asdmTables = asdmService.initializeAsdm(asdmUids, false);
+
+			Set<SourceCoverage> coverages = sourceCoverageCalculator.getCoverage(execBlockUID, asdmTables);
+
+			return coverages;
+
+		}
+
+		return null;
 	}
 
 }

@@ -90,6 +90,22 @@ export class Utils {
     return "away";
   }
 
+  replaceAll(str : string, find : string, replace : string ) : string {
+    if (str!==undefined){
+        return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
+    } else {
+        return str;
+    }
+  }
+
+  escapeRegExp(str) {
+      if (str!==undefined){
+        return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+      } else {
+          return str;
+      }
+  }
+
 
 }
 

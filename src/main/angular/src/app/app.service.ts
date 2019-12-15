@@ -171,7 +171,10 @@ setCookie( name: string, value:string, domain:string, path:string ) {
   }
 
   getCoverages(execBlockUID : string): void {
-    this.getDataAsync(this.globals.restServerURL,'coverages', execBlockUID, this.globals.emptyList, this.globals.operationType.coverages)
+    if ( execBlockUID != null ) {
+      let excBlockUIDNormalized = this.utils.replaceAll(this.utils.replaceAll(execBlockUID, "://","___"),"/","_");
+      this.getDataAsync(this.globals.restServerURL,'coverages', excBlockUIDNormalized, this.globals.emptyList, this.globals.operationType.coverages)
+    }
   }
 
   getDataAsync(server, api, urlParameter, parameters, operationType ){
@@ -222,6 +225,7 @@ setCookie( name: string, value:string, domain:string, path:string ) {
 
 	private extractCoverages(res: any) {
     this.globals.coverages = res;
+    console.log("Coveragess " + JSON.stringify(res));
   }
 
   private extractSettings(res: any) {
