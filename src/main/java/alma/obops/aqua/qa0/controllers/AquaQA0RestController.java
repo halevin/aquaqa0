@@ -25,9 +25,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.security.Principal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -37,40 +35,23 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import alma.obops.aqua.qa0.DRAToolConstants;
 import alma.obops.aqua.qa0.configuration.UrlConfiguration;
-import alma.obops.aqua.qa0.domain.Availability;
-import alma.obops.aqua.qa0.domain.DTArcNode;
-import alma.obops.aqua.qa0.domain.DTDataReducer;
-import alma.obops.aqua.qa0.domain.DataReducerJsonModel;
-import alma.obops.aqua.qa0.persistence.ArcNodeDao;
-import alma.obops.aqua.qa0.persistence.AvailabilityDao;
-import alma.obops.aqua.qa0.persistence.CycleDao;
-import alma.obops.aqua.qa0.persistence.DataReducerDao;
-import alma.obops.aqua.qa0.persistence.DataReducerRepository;
-import alma.obops.aqua.qa0.utils.DRAToolUtils;
 import alma.obops.boot.security.User;
 import alma.obops.boot.security.UserDao;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/restapi")
-public class DRAToolRestController {
+public class AquaQA0RestController {
 
 	private static final String ENCODING = "UTF-8";
 	private static final String RETURN_URL_COOKIE = "return-url";
@@ -86,7 +67,7 @@ public class DRAToolRestController {
 
 	protected Logger logger = Logger.getLogger( this.getClass().getCanonicalName() );
 
-	public DRAToolRestController() {
+	public AquaQA0RestController() {
 	}
 
 	@PostConstruct
