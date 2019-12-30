@@ -6,6 +6,7 @@
     "ng": "./node_modules/.bin/ng",
     "start": "./node_modules/.bin/ng serve",
     "build": "./node_modules/.bin/ng build --prod",
+    "build-dev": "./node_modules/.bin/ng build",
     "test": "./node_modules/.bin/ng test",
     "lint": "./node_modules/.bin/ng lint",
     "e2e": "./node_modules/.bin/ng e2e"
@@ -27,7 +28,6 @@
     "@ng-bootstrap/ng-bootstrap": "^5.1.4",
     "@ng-select/ng-select": "^3.6.1",
     "acorn": "^6.3.0",
-    "angular-calendar": "^0.28.0",
     "angular-material-calendar": "^0.2.14",
     "bootstrap": "^4.4.0",
     "core-js": "^2.4.1",

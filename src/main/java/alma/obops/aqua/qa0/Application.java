@@ -59,7 +59,9 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        ObopsBootUtils.setACSDataProperty();
+        ObopsBootUtils.initACSDataSystemProperty();
         SpringApplication.run(Application.class, args);
     }
+
 }
+

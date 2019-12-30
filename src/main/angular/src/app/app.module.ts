@@ -11,8 +11,6 @@ import { Globals } from './app.globals';
 import { PageHeaderComponent } from './page-header/page-header.component';
 import {SuiModule} from 'ng2-semantic-ui';
 import { ContextMenuModule, ContextMenuService } from 'ngx-contextmenu';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import {Utils} from "./app.utils";
 import { NgSelectModule } from '@ng-select/ng-select';
 import {Qa2DashboardGlobals} from "./app.qa2dashboard.globals";
@@ -41,10 +39,6 @@ import { HomeComponent } from './home/home.component';
     AppRoutingModule,
     NgbModule,
     FontAwesomeModule,
-    CalendarModule.forRoot({
-	provide: DateAdapter,
-	useFactory: adapterFactory
-    }),
     HttpClientModule,
     HttpClientJsonpModule,
     HttpClientXsrfModule,

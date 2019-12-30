@@ -95,8 +95,8 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/security/spring-security-config/5.1.2.RELEASE/spring-security-config-5.1.2.RELEASE.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/security/spring-security-cas/5.1.2.RELEASE/spring-security-cas-5.1.2.RELEASE.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/jasig/cas/client/cas-client-core/3.5.0/cas-client-core-3.5.0.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/alma/icd/obops/state-system/2019.12-SNAPSHOT/state-system-2019.12-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/alma/icd/obops/dam/2019.12-SNAPSHOT/dam-2019.12-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/alma/icd/obops/state-system/2020.02-SNAPSHOT/state-system-2020.02-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/alma/icd/obops/dam/2020.02-SNAPSHOT/dam-2020.02-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/alma/acs/systemEntities/2019.08-SNAPSHOT/systemEntities-2019.08-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/alma/acs/xmlentity/2019.08-SNAPSHOT/xmlentity-2019.08-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/alma/archive/database/2019.08-SNAPSHOT/database-2019.08-SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
