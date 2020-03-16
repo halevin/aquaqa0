@@ -27,7 +27,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@ng-bootstrap/ng-bootstrap": "^5.1.4",
     "@ng-select/ng-select": "^3.6.1",
-    "acorn": "^6.3.0",
+    "acorn": "^6.4.1",
     "angular-material-calendar": "^0.2.14",
     "bootstrap": "^4.4.0",
     "core-js": "^2.4.1",
