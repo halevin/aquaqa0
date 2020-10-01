@@ -132,6 +132,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/restapi/login-check").authenticated()
 				.antMatchers("/restapi/account/**").permitAll()
 				.antMatchers("/restapi/coverages/**").authenticated()
+				.antMatchers("/restapi/search").authenticated()
 				.antMatchers("/**").authenticated()
 		.and().csrf()
 //				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());

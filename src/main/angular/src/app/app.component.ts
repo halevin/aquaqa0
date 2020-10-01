@@ -1,9 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
-import {AppService} from './app.service';
-import {Globals} from './app.globals';
-import { ActivatedRoute } from '@angular/router';
-import {Utils} from "./app.utils";
-import {Qa2DashboardGlobals} from "./app.qa2dashboard.globals";
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { AppService } from './app.service';
+import { Globals } from './app.globals';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Emitters } from './app.emitters';
 
 @Component({
   selector: 'app-root',
@@ -11,39 +10,42 @@ import {Qa2DashboardGlobals} from "./app.qa2dashboard.globals";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
+  title = 'aquaqa0';
+  sidebarDisplayed = true;
   progressDisplayed = false;
   class = "active";
-  subscriptionOn: any;
-  subscriptionOff: any;
+  subscriptionHideSideBar: any;
+  subscriptionExpandSideBar: any;
 
-  constructor(private cdr: ChangeDetectorRef, private appService: AppService, private globals: Globals, public qa2globals: Qa2DashboardGlobals, private route: ActivatedRoute, public utils: Utils){
-	}
 
-	ngOnInit():void {
+  constructor(private cdr: ChangeDetectorRef, private appService : AppService, private globals : Globals, 
+    private route: ActivatedRoute, private emitters: Emitters){}
 
-			this.subscriptionOn = this.appService.getLoadingOnEmitter()
-			.subscribe(item =>{
-          if ((this.globals.api !== "project-list" && this.globals.api !== "schedblock-list") ){
-            console.log(" =========== progressDisplayed" + this.progressDisplayed);
-            Promise.resolve(null).then(() => this.progressDisplayed = true);
-          }
-        }
-      );
-			this.subscriptionOff = this.appService.getLoadingOffEmitter()
-			.subscribe(item =>{
-        console.log(" =========== progressDisplayed" + this.progressDisplayed);
-        Promise.resolve(null).then(() => this.progressDisplayed = false);
-        }
-      );
+  ngOnInit(): void {
+    this.subscriptionHideSideBar = this.emitters.getHideSideBarEmitter()
+    .subscribe(() =>{
+        this.sidebarDisplayed = false;
+        this.class = "";
+      }
+    );
+    this.subscriptionExpandSideBar = this.emitters.getExpandSideBarEmitter()
+    .subscribe(() =>{
+        this.sidebarDisplayed = true;
+        this.class = "active";
+      }
+    );
 
-      this.appService.startup();
+    this.appService.startup();
+}
 
+onPressed(sidebarDispl: boolean){
+  this.sidebarDisplayed = sidebarDispl;
+  if (this.sidebarDisplayed){
+    this.class = "active";
+  } else {
+    this.class = "";
   }
+}
 
-  ngAfterViewInit() {
-    this.cdr.detectChanges();
-  }
-
-
-
+  
 }

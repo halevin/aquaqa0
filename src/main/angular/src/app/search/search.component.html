@@ -1,0 +1,220 @@
+<div class="container-fluid root">
+  <div class="row">
+    <sidebar class="col-6 col-md-6 col-sm-12" [sidebarDisplayed]="sidebarDisplayed" (onPressed)="onPressed($event)"></sidebar>
+
+    <div class="col-6 col-md-6 col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="container">
+            <div class="row">
+
+              <div class="col-2">
+                Correlator
+              </div>
+
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="blChBx" [(ngModel)]="globals.searchOptions.bl">
+                    <label class="form-check-label" for="blChBx">BL</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="acaChBx" [(ngModel)]="globals.searchOptions.aca">
+                    <label class="form-check-label" for="acaChBx">ACA</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-6">
+              </div>
+
+              <div class="col-2">
+                Project type
+              </div>
+
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="scienceChBx"
+                      [(ngModel)]="globals.searchOptions.science">
+                    <label class="form-check-label" for="scienceChBx">Science</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="calibratorChBx"
+                      [(ngModel)]="globals.searchOptions.calibrator">
+                    <label class="form-check-label" for="calibratorChBx">Calibrator</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-6">
+              </div>
+              <!--  Next row    -->
+
+              <div class="col-2">
+                QA0 States
+              </div>
+
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="unsetChBx" [(ngModel)]="globals.searchOptions.unset">
+                    <label class="form-check-label" for="unsetChBx">Unset</label>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="pendingChBx"
+                      [(ngModel)]="globals.searchOptions.pending">
+                    <label class="form-check-label" for="pendingChBx">Pending</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="passChBx" [(ngModel)]="globals.searchOptions.pass">
+                    <label class="form-check-label" for="passChBx">Pass</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="semipassChBx"
+                      [(ngModel)]="globals.searchOptions.semipass">
+                    <label class="form-check-label" for="semipassChBx">SemiPass</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-2">
+                <div class="form-group">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="failChBx" [(ngModel)]="globals.searchOptions.fail">
+                    <label class="form-check-label" for="failChBx">Fail</label>
+                  </div>
+                </div>
+              </div>
+
+              <!--  Next row    -->
+              <div class="col-2">
+                From
+              </div>
+
+              <div class="col-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                        [(ngModel)]="globals.dateStart" ngbDatepicker #d="ngbDatepicker">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary fas fa-calendar alt" (click)="d.toggle()" type="button"></button>
+                      </div>
+                    </div>
+                    <ngb-timepicker [(ngModel)]="globals.timeStart" [seconds]="true"></ngb-timepicker>
+                  </div>
+              </div>
+
+              <div class="col-1">
+                To
+              </div>
+
+              <div class="col-3">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="yyyy-mm-dd" name="dpe" 
+                        [(ngModel)]="globals.dateEnd" ngbDatepicker #de="ngbDatepicker">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary far fa-calendar alt" (click)="de.toggle()" type="button"></button>
+                      </div>
+                    </div>
+                    <ngb-timepicker [(ngModel)]="globals.timeEnd" [seconds]="true"></ngb-timepicker>
+                  </div>
+              </div>
+
+              <div class="col-3">
+                  <ng-select [items]="globals.timeIntervals" bindLabel="name" placeholder="Select item" appendTo="body"
+                    [multiple]="false" [hideSelected]="true" id="timeInervalSelect"
+                    (change)="timeIntervalChange()"
+                    [(ngModel)]="globals.timeInterval">
+                  </ng-select>
+              </div>
+
+              <!--  Next row    -->
+
+
+              <div class="col-4">
+                  <div class="form-group">
+                    <label for="projectCodeText">Project code</label>
+                    <input  id="projectCodeInput" type="text" class="form-control" aria-label="ProjectCode" [(ngModel)]="globals.searchOptions.projectCode" id="projectCodeText">
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="execBlockUIDText">ExecBlock UID</label>
+                    <input  id="execBlockUIDInput" type="text" class="form-control" aria-label="ExecBLock" [(ngModel)]="globals.searchOptions.execBlockUID" id="execBlockUIDText">
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="obsUnitSetStatusIDText">MOUS Status ID</label>
+                    <input  id="obsUnitSetStatusIDInput" type="text" class="form-control" aria-label="ObsUnitSet" [(ngModel)]="globals.searchOptions.obsUnitSetStatusID" id="schedBlockNameText">
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="schedBlockNameText">SchedBlock name</label>
+                    <input  id="schedBlockNameInput" type="text" class="form-control" aria-label="SchedBlock" [(ngModel)]="globals.searchOptions.schedBlockName" id="schedBlockNameText">
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="schedBlockUIDText">SchedBlock UID</label>
+                    <input  id="schedBlockUIDInput" type="text" class="form-control" aria-label="SchedBlockUID" [(ngModel)]="globals.searchOptions.schedBlockUID" id="schedBlockUIDText">
+                  </div>
+                </div>
+                <div class="col-4">
+                </div>
+                <!--  Next row    -->
+
+              <div class="col-3">
+                <button id="searchButton" type="button" class="btn btn-primary container-fluid almacolor"
+                  (click)="search()">
+                  <i class="fas fa-search has-text"></i>
+                  Search
+                </button>
+              </div>
+              <div class="col-3">
+                <button id="resetButton" type="button" class="btn btn-danger container-fluid" (click)="reset()">
+                  <i class="fas fa-times has-text"></i>
+                  Reset
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

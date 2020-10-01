@@ -34,6 +34,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(scanBasePackages = {
         "alma.obops.aqua.qa0",
+        "alma.obops.aqua.servlet",
+        "alma.obops.aqua.reports",
         "alma.obops.aqua.service",
         "alma.obops.aqua.dao",
         "alma.asdm.service",

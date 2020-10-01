@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: alma.icd.tmcdb:tmcdb-pojos:2020.08-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/icd/tmcdb/tmcdb-pojos/2020.08-SNAPSHOT/tmcdb-pojos-2020.08-20200811.210623-2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/icd/tmcdb/tmcdb-pojos/2020.08-SNAPSHOT/tmcdb-pojos-2020.08-20200811.210623-2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/icd/tmcdb/tmcdb-pojos/2020.08-SNAPSHOT/tmcdb-pojos-2020.08-20200811.210623-2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

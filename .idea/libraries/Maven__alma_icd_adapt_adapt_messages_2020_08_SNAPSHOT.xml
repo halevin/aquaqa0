@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: alma.icd.adapt:adapt-messages:2020.08-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/icd/adapt/adapt-messages/2020.08-SNAPSHOT/adapt-messages-2020.08-20200828.175350-27.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/icd/adapt/adapt-messages/2020.08-SNAPSHOT/adapt-messages-2020.08-20200828.175350-27-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/icd/adapt/adapt-messages/2020.08-SNAPSHOT/adapt-messages-2020.08-20200828.175350-27-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

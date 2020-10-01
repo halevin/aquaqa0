@@ -77,10 +77,8 @@ public class SimpleCORSFilter implements Filter {
 
 		response.setHeader("Allow", "OPTIONS, GET, HEAD, POST");
 		if ("OPTIONS".equals(request.getMethod())) {
-			logger.warning("SimpleCORSFilter here OPTIONS");
 			response.setStatus(HttpServletResponse.SC_OK);
 		} else {
-			logger.warning("SimpleCORSFilter here GET, POST, etc.");
 			chain.doFilter(request, response);
 		}
 	}

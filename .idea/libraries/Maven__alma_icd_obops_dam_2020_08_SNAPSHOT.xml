@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: alma.icd.obops:dam:2020.08-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/icd/obops/dam/2020.08-SNAPSHOT/dam-2020.08-20200916.120602-20.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/icd/obops/dam/2020.08-SNAPSHOT/dam-2020.08-20200916.120602-20-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/icd/obops/dam/2020.08-SNAPSHOT/dam-2020.08-20200916.120602-20-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

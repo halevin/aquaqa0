@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import "assets/css/alma-ui-guidelines.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
-.alma-logo { border: 1px solid white; height: 36px }
+.alma-logo { border: 1px solid white; height: 28px }
 .alma-version { font-size:0.7em; font-weight:normal }
 .ui.almacolor.menu {
   background: #25386f;

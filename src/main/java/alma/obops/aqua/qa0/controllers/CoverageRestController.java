@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import alma.obops.aqua.qa0.service.ExecBlockHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,12 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import alma.asdm.AsdmTables;
-import alma.asdm.AsdmUids;
-import alma.asdm.dao.AsdmDao;
 import alma.asdm.domain.SourceCoverage;
-import alma.asdm.service.AsdmService;
-import alma.obops.aqua.service.SourceCoverageCalculator;
 
 @CrossOrigin
 @RestController
@@ -52,20 +48,9 @@ public class CoverageRestController {
 	Environment env;
 
 	@Autowired
-	private SourceCoverageCalculator sourceCoverageCalculator;
-
-	@Autowired
-	private AsdmService asdmService;
+	private ExecBlockHelper execBlockHelper;
 
 	protected Logger logger = Logger.getLogger( this.getClass().getSimpleName() );
-
-	public CoverageRestController() {
-	}
-
-	@PostConstruct
-	private void init() {
-		// no-op
-	}
 
 	@RequestMapping(value = "/coverages/{eb_uid}")
 	@ResponseBody
@@ -84,17 +69,10 @@ public class CoverageRestController {
 
 			logger.info(" Coverage for EB " + execBlockUID);
 
-			AsdmUids asdmUids = asdmService.getAsdmUids(execBlockUID);
-			if (asdmUids == null) {
-				logger.warning("Cannot read ASDM table");
-				return null;
-			}
-	
-			AsdmTables asdmTables = asdmService.initializeAsdm(asdmUids, false);
-
-			Set<SourceCoverage> coverages = sourceCoverageCalculator.getCoverage(execBlockUID, asdmTables);
+			Set<SourceCoverage> coverages = execBlockHelper.getCoverages(execBlockUID);
 
 			logger.info(" Found  " + coverages.size()+" coverages");
+
 
 
 			return coverages;

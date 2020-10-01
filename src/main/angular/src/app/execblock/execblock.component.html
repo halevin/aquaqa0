@@ -1,0 +1,318 @@
+<div class="d-flex justify-content-center fill-height" *ngIf="globals.execBlockSpinnerVisible">
+    <div class="spinner-border" style="width: 3rem; height: 3rem; margin-top: 18%;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>    
+</div>
+<div class="container-fluid root main-container" *ngIf="!globals.execBlockSpinnerVisible">
+    <div class="row">
+      <div class="col-xl-1">
+          <div class="row">
+            <button type="button" class="btn btn-outline-success btn-lg btn-block" (click)="openAtmosphere(content_atmosphere)">
+                Atmosphere
+            </button>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-outline-warning btn-lg btn-block">
+                Phase
+            </button>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-outline-success btn-lg btn-block" (click)="openCoverages(content)">
+                Coverage
+            </button>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-outline-success btn-lg btn-block">
+                QA+
+            </button>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-outline-danger btn-lg btn-block">
+                Pointing
+            </button>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-outline-success btn-lg btn-block">
+                Baselines
+            </button>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-outline-warning btn-lg btn-block">
+                Antennas
+            </button>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-outline-success btn-lg btn-block">
+                Scans
+            </button>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-outline-success btn-lg btn-block">
+                Intents
+            </button>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-outline-success btn-lg btn-block">
+                Calibrators
+            </button>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-outline-warning btn-lg btn-block">
+                Amplitude
+            </button>
+          </div>
+          <div class="row">
+            <button type="button" class="btn btn-outline-success btn-lg btn-block">
+                QA0 Flags
+            </button>
+          </div>
+      </div>
+      <div class="col-xl-11">      
+    <div class="container-fluid root">
+        <div class="row align-items-center">
+            <div class="col-1 col-md-1 col-sm-12" align="center">
+                <div class="btn btn-block {{qa0StatusColor()}}" (click)="doQA0(contentdoqa0)" placement="right" style="white-space: pre-line;" ngbTooltip="{{globals.execBlock.qa0StatusReason == ''?'-':globals.execBlock.qa0StatusReason}}">
+                    <h6 class="card-title qastatus">{{globals.execBlock.qa0Status}}</h6>
+                    <h6 class="card-subtitle mb-2">EF = {{globals.execBlock.execFraction}}</h6>
+                </div>    
+            </div>
+            <div class="col-4 col-md-4 col-sm-6">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <div class="row">
+                            <h5 class="col-5 col-md-5 col-sm-5">Project code</h5>
+                            <h5 class="col-7 col-md-7 col-sm-7 projectcode">{{globals.execBlock.obsProjectCode}}</h5>
+                        </div>
+                        <div class="row">
+                            <h5 class="col-5 col-md-5 col-sm-5">SchedBlock name</h5>
+                            <h5 class="col-7 col-md-7 col-sm-7 schedblockname">{{globals.execBlock.schedBlockName}}</h5>
+                        </div>
+                        <div class="row">
+                            <h5 class="col-5 col-md-5 col-sm-5">ExecBlock UID</h5>
+                            <h5 class="col-7 col-md-7 col-sm-7 execblockuid">{{globals.execBlock.execBlockUid}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+
+            <div class="col-4 col-md-4 col-sm-6 info-panel">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <div class="row">
+                            <h5 class="col-6 col-md-6 col-sm-6">Array</h5>
+                            <h5 class="col-6 col-md-6 col-sm-6 info">{{globals.execBlock.array}}</h5>
+                        </div>
+                        <div class="row">
+                            <h5 class="col-6 col-md-6 col-sm-6">Correlator</h5>
+                            <h5 class="col-6 col-md-6 col-sm-6 info">{{globals.execBlock.correlator}}</h5>
+                        </div>
+                        <div class="row">
+                            <h5 class="col-6 col-md-6 col-sm-6">Repr. freq</h5>
+                            <h5 class="col-6 col-md-6 col-sm-6 execblockuid">{{globals.execBlock.representativeFrequency}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+
+            <div class="col-1 col-md-1 col-sm-1">
+                <div class="row">
+                    <a href="{{globals.webShiftLogURL}}?ebuid={{globals.execBlock.execBlockUid}}" target="_blank" class="btn btn-outline-primary btn-lg btn-block">WebSLT</a>
+                </div>
+                <div class="row">
+                    <a href="{{globals.protrackURL}}?schedBlockUid={{globals.execBlock.schedBlockUID}}" target="_blank" class="btn btn-outline-primary btn-lg btn-block">Protrack</a>
+                </div>
+                <div class="row">
+                    <a href="{{globals.aquaQA2URL}}?ousStatusUid={{globals.execBlock.ousStatusUid}}" target="_blank" class="btn btn-outline-primary btn-lg btn-block">QA2</a>
+                </div>
+            </div>    
+        </div><!--row-->
+
+        <div class="row">
+            <div class="col-12 col-md-12 col-sm-12">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-1 col-md-1 col-sm-12">
+                                Antennas
+                            </div>
+                            <div class="col-11 col-md-11 col-sm-12 info">
+                                {{(globals.execBlock.aosCheckSummary!=null)?globals.execBlock.aosCheckSummary.antennaSummary:""}}
+                            </div>    
+                        </div><!--row-->
+                        <div class="row">
+                            <div class="col-1 col-md-1 col-sm-12">
+                                Weather
+                            </div>
+                            <div class="col-11 col-md-11 col-sm-12 info">
+                                {{globals.execBlock.phaseRMS}} <br/>
+                                {{globals.execBlock.weatherData}}
+                            </div>    
+                        </div><!--row-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-12 col-sm-12">
+                <div class="card" style="width: 100%;">
+                    <h6 class="card-title" style="padding-left: 10px;">Final comment</h6>
+                    <div class="card-body">
+                        <div class="row" style="overflow-y: scroll;">
+                            <pre style="padding: 10px;">{{globals.execBlock.finalComment}}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--row-->
+
+
+        <div class="row">
+            <div class="col-12 col-md-12 col-sm-12">
+                <button type="button" (click)="openWindow(content_aoscheck)"
+                    [disabled]="globals.aosCheckSummary == null || globals.aosCheckSummary.aosCheckJson == null" 
+                    class="btn btn-primary">
+                        aos-check
+                </button>&nbsp;&nbsp;
+                <button type="button" (click)="openWindow(content_qa0history)" class="btn btn-primary">QA0 History</button>&nbsp;&nbsp;
+                <a type="button" 
+                href="{{globals.restServerURL}}/report/{{utils.getExecBlockUIDNormalized(globals.currentExecBlockUID)}}?format=PDF"  
+                download="QA0_report_{{globals.currentExecBlockUID}}.pdf" class="btn btn-primary">QA0 Report</a>&nbsp;&nbsp;
+                <button type="button" (click)="openWindow(content_antenna_flags)" class="btn btn-primary">Antenna Flags</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary">Comments (2)</button>&nbsp;&nbsp;
+            </div>
+        </div><!--row-->
+
+        <div class="row">
+            <div class="col-12 col-md-12 col-sm-12">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="alert alert-warning" style="width: 100%;" role="alert">
+                                A simple warning alert
+                            </div>                        
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+        
+    </div><!--container-fluid root-->
+    </div>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Source coverage</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <app-sources></app-sources>
+    </div>
+</ng-template>    
+
+<ng-template #content_atmosphere let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Atmosphere</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <app-atmosphere></app-atmosphere>
+    </div>
+</ng-template>    
+
+<ng-template #contentdoqa0 let-doqa0modal class="modal-do-qa0">
+    <div class="modal-header">
+      <h4 class="modal-title">Do QA0</h4>
+      <button type="button" class="close" aria-label="Close" (click)="doqa0modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid col d-flex flex-column fill-all" style="padding-top: 10px;">
+            <div class="row">
+                <ng-select [items]="globals.qa0Statuses" bindLabel="name" placeholder="Select QA0 Status" appendTo="body"
+                [multiple]="false" [hideSelected]="true" id="qa0StatuseSelect"
+                [clearable] = "false"
+                (change)="qa0StatusChange()" style="width: 200px;"
+                [(ngModel)]="qa0Status">
+                </ng-select>
+                &nbsp;
+                <ng-select *ngIf="qa0Status == 'SemiPass' || qa0Status == 'Fail' || qa0Status == 'Pending'"
+                    [items]="qa0ReasonsList"
+                    placeholder="Select reason" appendTo="body"
+                    bindLabel="name"
+                    bindValue = "name"
+                    [multiple] = "true" 
+                    [hideSelected] = "true" 
+                    id="qa0StatuseSelect"
+                    style="width: 600px;"
+                    (change)="qa0ReasonsChange()"
+                    [(ngModel)]="qa0ReasonsSelected">
+                    <ng-template ng-option-tmp let-item="item" let-index="index">
+                        <span ngbTooltip="{{item.description}}"><b>{{item.name}}</b>&nbsp;{{item.shortDescription}}</span>
+                    </ng-template>                    
+                </ng-select>
+                &nbsp;
+                <input type="text" [(ngModel)]="executionFraction" style="width: 100px;" placeholder="EF">
+                &nbsp;
+                <button type="button" class="btn btn-outline-primary" [disabled]="execFractionSpinnerVisible" (click)="computeExecutionFraction()">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="execFractionSpinnerVisible"></span>                
+                    Compute Execution Fraction
+                </button>
+            </div>
+            <div class="row flex-grow-1">
+                <ngb-toast header="Execution Fraction Report" (hide)="closeExecutionFractionReport()" [autohide]="false" *ngIf="executionFractionReport != null">
+                    <pre>{{executionFractionReport}}</pre>
+                </ngb-toast>                
+                <textarea [(ngModel)]="finalComment" class="fill-all"></textarea>                                
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="doqa0modal.close('approved')">Ok</button>
+        <button type="button" class="btn btn-light" (click)="doqa0modal.dismiss('Close click')">Close</button>
+    </div>
+</ng-template>    
+
+<ng-template #content_aoscheck let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">AOSCheck report</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <pre *ngIf="this.globals.aosCheckSummary != null">{{this.globals.aosCheckSummary.aosCheckJson}}</pre>
+    </div>
+</ng-template>    
+
+<ng-template #content_qa0history let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">QA0 Status History</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <qa0-status-history></qa0-status-history>
+    </div>
+</ng-template>    
+
+<ng-template #content_antenna_flags let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Antenna flag counts</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <antenna-flags></antenna-flags>
+    </div>
+</ng-template>    
+

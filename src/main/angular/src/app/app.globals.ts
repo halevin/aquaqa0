@@ -1,67 +1,13 @@
 import { Injectable } from '@angular/core';
-import {DataReducer} from "./datareducer";
+import { ExecBlock } from './domain/execblock';
+import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import { SearchOptions } from './searchoptions';
+import { QA0Reason } from './domain/qareason';
 
 export interface IOption {
   id: string,
   name: string
 }
-
-export const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  green: {
-    primary: '#008000',
-    secondary: '#3CB371'
-  },
-  gray: {
-    primary: '#808080',
-    secondary: '#C0C0C0'
-  },
-  yellow: {
-    primary: '#FFFF00',
-    secondary: '#FDF1BA'
-  }
-};
-
-
-
-export const ARCs : any = [
-  {id: 'NA', name: 'NA'},
-  {id: 'EA', name: 'EA'},
-  {id: 'EU', name: 'EU'},
-  {id: 'JAO', name: 'JAO'}
-];
-const NodesNA : IOption[]  = [
-  {id: 'ch', name: 'Charlottesville'},
-  {id: 'ca', name: 'Canada'}
-];
-const NodesEA : IOption[] = [
-  {id: 'ja', name: 'Japan'},
-  {id: 'ko', name: 'Korea'},
-  {id: 'ta', name: 'Taiwan'}
-];
-const NodesEU : IOption[] = [
-  {id: 'ge', name: 'Germany'},
-  {id: 'sw', name: 'Sweden'},
-  {id: 'cz', name: 'Czech Republic'},
-  {id: 'fr', name: 'France'},
-  {id: 'uk', name: 'UK'},
-  {id: 'ne', name: 'Netherlands'},
-  {id: 'it', name: 'Italy'},
-  {id: 'po', name: 'Portugal'},
-  {id: 'eso', name: 'ESO'}
-];
-const NodesJAO : IOption[] = [
-];
-
-export const ARCNodes : Map<String, IOption[]> = new Map<String, IOption[]>();
-
 
 @Injectable()
 export class Globals {
@@ -70,12 +16,20 @@ export class Globals {
 
     emptyList=[];
     accounts=[];
+    qa0Statuses = ['Pass','SemiPass','Unset','Pending','Fail'];
+    qa0Reasons = [];
 
     searchVal : string;
+    public execBlocks : ExecBlock[] = [];
+    public execBlock : ExecBlock = new ExecBlock();
 
 
     loginURL = "/login-check";
     logoutURL = "/do-logout";
+
+    webShiftLogURL = "";
+    aquaQA2URL = "";
+    protrackURL = "";
 
     helpURL = "";
     helpdeskEmail = "";
@@ -91,15 +45,30 @@ export class Globals {
     restServerURL : string;
 
     // Data
+    aosCheckSummary;
     statistics = {};
     coverages = [];
+    atmosphere = {};
+    qa0StatusHitory = [];
+    antennaFlags = [];
 
     currentExecBlockUID : string;
 
 
+    qa0SemiPassReasons: QA0Reason[] = [];
+    qa0PendingReasons: QA0Reason[] = [];
+
     operationType = {
+      execBlocks : 'execblocks',
+      execBlock : 'execblock',
+      aoscheck : 'aoscheck',
+      executionFraction : 'executionFraction',
+      qa0history : 'qa0history',
+      antennaFlags : 'antennaFlags',
       settings : 'settings',
-      coverages : 'coverages'
+      coverages : 'coverages',
+      atmosphere : 'atmosphere',
+      updateExecBlock : 'updateExecBlock'
     }
 
     drIdToDelete : String;
@@ -107,15 +76,26 @@ export class Globals {
     currentOperationType = {};
 
     isDataLoaded = false;
+    execBlockSpinnerVisible = true;
+    searchSpinnerVisible = false;
 
-    //QA2 Dashboard block
+    dateStart: NgbDateStruct;
+    dateEnd: NgbDateStruct;
+    timeStart : NgbTimeStruct;
+    timeEnd : NgbTimeStruct;
+    timeInterval : IOption;
+    public searchOptions : SearchOptions = new SearchOptions();
+
+    public timeIntervals : IOption[] = [
+      {id: 'other', name: 'Other'},
+      {id: 'last2hours', name: 'Last 2 hours'},
+      {id: 'last8hours', name: 'Last 8 hours'},
+      {id: 'lastDay', name: 'Last day'},
+    ];
+  
+  
 
     constructor() {
-
-      ARCNodes.set('NA', NodesNA);
-      ARCNodes.set('EU', NodesEU);
-      ARCNodes.set('EA', NodesEA);
-      ARCNodes.set('JAO', NodesJAO);
 
       if ( this.developmentMode ) {
         this.restServerURL = 'http://ga018573.ads.eso.org:10000/aqua-qa0/restapi';

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Globals} from '../app.globals';
-import { Router, RouterModule } from '@angular/router';
-import { AppService } from '../app.service';
-import {Utils} from "../app.utils";
-import {Qa2DashboardGlobals} from "../app.qa2dashboard.globals";
+import { Router } from '@angular/router';
+import { Globals } from '../app.globals';
+import { Utils } from '../app.utils';
 
 @Component({
   selector: 'page-header',
@@ -12,7 +10,7 @@ import {Qa2DashboardGlobals} from "../app.qa2dashboard.globals";
 })
 export class PageHeaderComponent implements OnInit {
 
-  constructor(public globals: Globals, public qa2globals: Qa2DashboardGlobals, public router:Router, private service:AppService, public utils: Utils) { }
+  constructor(public router : Router, public globals : Globals, public utils : Utils) { }
 
   ngOnInit() {
   }
@@ -20,13 +18,30 @@ export class PageHeaderComponent implements OnInit {
   logout(){
     console.log( ">>> logout");
     window.sessionStorage.clear();
-    this.router.navigate(['pi/home']);
+    this.router.navigate(['home']);
     window.location.href = this.globals.restServerURL+this.globals.logoutURL;
   }
 
-  getPiFullName(){
-    return this.globals.account.firstname + " " +
-    (this.globals.account.initials ? this.globals.account.initials + " " : "") +
-    this.globals.account.lastname;
+  public getUserFullName(){
+    return "Example User";
+    // return this.globals.account.firstname + " " +
+    // (this.globals.account.initials ? this.globals.account.initials + " " : "") +
+    // this.globals.account.lastname;
   }
+
+  public navigateDashboard(){
+    this.router.navigate(['dashboard']);
+  }
+
+  public navigateSearch(){
+    this.router.navigate(['search']);
+
+  }
+
+  public navigateExecblock(){
+    this.router.navigate(['execblock']);
+
+  }
+
+
 }

@@ -1,0 +1,30 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">User</th>
+      <th scope="col">Status</th>
+      <th scope="col">Reason</th>
+      <th scope="col">comment</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let record of globals.qa0StatusHitory">
+      <td>
+          {{ record.date  | customDate : 'UTC' }}
+      </td>
+      <td>
+        {{ record.account }}
+      </td>
+      <td>
+        {{ record.status }}
+      </td>
+      <td>
+        {{ record.reason }}
+      </td>
+      <td>
+        {{ record.comment }}
+      </td>
+  </tr>
+    </tbody>
+  </table>

@@ -1,38 +1,65 @@
-<div class="ui fixed almacolor inverted menu" *ngIf="!qa2globals.dashboardMode">
-  <div class="ui fluid container">
-    <div class="item" style="padding-top:0px;padding-bottom:0px;padding-left:5px">
-      <a routerLink="/">
-        <img class="ui image alma-logo" src='assets/img/almalogo.png'>
+<nav class="navbar navbar-expand alma-blue">
+  <a class="navbar-brand" href="#">
+    <img class="alma-logo" src='assets/img/alma-logo.jpg'>
+    &nbsp;
+    <strong>AQUA &middot; QA0</strong>&nbsp;&nbsp;<span class="alma-sw-version">v.2020-06</span>
+  </a>
+
+  <ul class="nav nav-tabs mr-auto">
+    <li class="nav-item" *ngIf="false">
+      <a class="nav-link" routerLink = "dashboard" [ngClass]="{'active': router.url.indexOf('/dashboard') > -1 || (router.url == '/')}">
+        Dashboard
       </a>
-      &nbsp;&nbsp;<b>AQUA QA0</b>
-    </div>
-    <div class="ui right dropdown item" suiDropdown>
-      <i class="user icon"></i>
-      <div *ngIf="! utils.isNullOrUndefined(globals.account)">
-        {{globals.account.firstName}} {{globals.account.lastName}}
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink = "search" [ngClass]="{'active': router.url.indexOf('/search') > -1 || (router.url == '/')}">
+        Search
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink = "execblock" [queryParams]="{ebuid: globals.currentExecBlockUID}" 
+      [ngClass]="{'active': router.url.indexOf('/execblock') > -1}" *ngIf="globals.currentExecBlockUID != null">
+        ExecBLock
+      </a>
+    </li>
+  </ul>
+
+  <!-- Filler, pushes the next items to the right -->
+  <!-- <span class="flex-md-fill"></span> -->
+
+  <ul class="navbar-nav ml-auto">
+    <li ngbDropdown class="nav-item">
+      <a ngbDropdownToggle class="nav-link">
+        <i class="fas fa-question has-text"></i> Help
+      </a>
+      <div ngbDropdownMenu>
+        <a href="https://almascience.eso.org/internal-documents/aqua-release-notes" target="_blank" ngbDropdownItem>
+          <i class="fas fa-question has-text"></i> Release notes
+        </a>
+        <a href="mailto:usd-help@alma.cl?subject=Cool%20UI%20example!" ngbDropdownItem>
+          <i class="fas fa-envelope has-text"></i> Send us your comments
+        </a>
       </div>
-      <i class="dropdown icon"></i>
-      <div class="menu" suiDropdownMenu>
-        <div class="item">
-          Version 1.0.0alpha1
-        </div>
-        <a class="item" href="{{globals.helpURL}}" target="_blank">
-          <i class="help icon"></i> User Manual
+    </li>
+
+    <li class="nav-item" style="width: 200px;" ngbDropdown>
+      <a ngbDropdownToggle class="nav-link" *ngIf="! utils.isNullOrUndefined(globals.account)">
+          <i class="fas fa-user has-text"></i> {{globals.account.firstName}} {{globals.account.lastName}}
+      </a>
+      <div ngbDropdownMenu>
+        <a ngbDropdownItem href="http://asa.alma.cl/UserRegistration/secure/updateAccount.jsp">
+          <i class="fas fa-user-edit has-text"></i> User profile
         </a>
-        <a class="item" href="mailto:{{globals.helpdeskEmail}}?subject=DRA Tool"> <i class="mail icon"></i> Send us your
-          comments
-        </a>
-        <div class="item" (click)="logout()">
-          <i class="sign out icon"></i> Logout
-        </div>
-        <a class="item" href="http://asa.alma.cl/UserRegistration/secure/updateAccount.jsp">
-          <i class="setting icon"></i> User profile
+        <a ngbDropdownItem (click)="logout()">
+          <i class="fas fa-sign-out-alt has-text"></i> Logout
         </a>
       </div>
-    </div>
-  </div>
-</div>
-<!-- invisible spacer -->
-<div class="ui main text container {{qa2globals.dashboardMode?'hidden':''}}">
-  <h1 style="margin-bottom: 0.2em; color: white" class="ui header">S</h1>
-</div>
+    </li>
+
+  </ul>
+
+</nav>
+
+
+
+<!-- <div style="padding-bottom: 5px"></div> Invisible spacer -->

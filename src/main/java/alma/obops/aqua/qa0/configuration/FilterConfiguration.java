@@ -29,7 +29,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 import alma.obops.aqua.qa0.security.ratelimiting.RateLimitingFilter;
-import alma.obops.aqua.qa0.utils.DRAToolUtils;
+import alma.obops.aqua.qa0.utils.ToolUtils;
 import alma.obops.boot.filters.RequestLoggingFilter;
 
 @Configuration
@@ -62,7 +62,7 @@ public class FilterConfiguration {
 		}
 		final String limit = env.getProperty( propName );
 
-		DRAToolUtils.checkIfDefined( propName, limit );
+		ToolUtils.checkIfDefined( propName, limit );
 
 		int limitValue = Integer.MAX_VALUE;
 		try {

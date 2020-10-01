@@ -25,7 +25,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import alma.obops.aqua.qa0.utils.DRAToolUtils;
+import alma.obops.aqua.qa0.utils.ToolUtils;
 
 /**
  * Implements the {@link UrlConfiguration} interface by exposing the properties
@@ -51,7 +51,7 @@ public class ObopsConfiguration implements UrlConfiguration {
 		final String propName = "cas.url";
 		final String url = env.getProperty( propName );
 
-		DRAToolUtils.checkIfDefined( propName, url );
+		ToolUtils.checkIfDefined( propName, url );
 
 		return url.trim();
 	}
@@ -62,7 +62,7 @@ public class ObopsConfiguration implements UrlConfiguration {
 		final String propName = "obops.aqua.qa0.rest.server.url";
 		final String url = env.getProperty( propName );
 
-		DRAToolUtils.checkIfDefined( propName, url );
+		ToolUtils.checkIfDefined( propName, url );
 		
 		return url.trim();
 	}

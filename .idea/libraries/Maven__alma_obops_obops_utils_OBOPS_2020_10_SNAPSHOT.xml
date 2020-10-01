@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: alma.obops:obops-utils:OBOPS-2020.10-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/obops/obops-utils/OBOPS-2020.10-SNAPSHOT/obops-utils-OBOPS-2020.10-20200930.151030-75.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/obops/obops-utils/OBOPS-2020.10-SNAPSHOT/obops-utils-OBOPS-2020.10-20200930.151030-75-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/obops/obops-utils/OBOPS-2020.10-SNAPSHOT/obops-utils-OBOPS-2020.10-20200930.151030-75-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

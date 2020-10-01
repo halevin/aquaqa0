@@ -1,20 +1,8 @@
 <div>
-
-    <div>
-        <page-header></page-header>
+  <page-header></page-header>
+  <div class="row">
+    <div class="col-12">
+      <router-outlet></router-outlet>
     </div>
-
-    <div class="ui main text container">
-        <h1 style="margin-bottom: 0.2em;" class="ui header"></h1>
-    </div>
-
-    <div *ngIf="utils.checkRole('OBOPS/QAA')">
-        <router-outlet></router-outlet>
-    </div>
-</div>
-
-<div *ngIf="qa2globals.progressDisplayed" class="d-flex justify-content-center centered" style = "display:block;">
-  <div class="spinner-border" role="status">
-    <span class="sr-only">Loading...</span>
   </div>
 </div>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: alma.obops:archivedam:OBOPS-2020.10-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/obops/archivedam/OBOPS-2020.10-SNAPSHOT/archivedam-OBOPS-2020.10-20200930.151100-75.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/obops/archivedam/OBOPS-2020.10-SNAPSHOT/archivedam-OBOPS-2020.10-20200930.151100-75-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/obops/archivedam/OBOPS-2020.10-SNAPSHOT/archivedam-OBOPS-2020.10-20200930.151100-75-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

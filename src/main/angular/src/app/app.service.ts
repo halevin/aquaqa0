@@ -1,29 +1,21 @@
 import {throwError as observableThrowError} from 'rxjs';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
-import {EventEmitter, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {Globals} from './app.globals';
 
 import {Utils} from "./app.utils";
-import {Qa2DashboardGlobals} from "./app.qa2dashboard.globals";
-import {PropCount} from "./propcount";
+import { SearchOptions } from './searchoptions';
+import { ExecBlock } from './domain/execblock';
+import { Emitters } from './app.emitters';
+import { Processors } from './app.processors';
 
 
 @Injectable()
 export class AppService {
 
     public data;
-
-  change: EventEmitter<number> = new EventEmitter();
-  loadingOn: EventEmitter<number> = new EventEmitter();
-  loadingOff: EventEmitter<number> = new EventEmitter();
-  accountSelected: EventEmitter<number> = new EventEmitter();
-  activatedAsDR: EventEmitter<number> = new EventEmitter();
-  deletedFromDR: EventEmitter<number> = new EventEmitter();
-
-  coverageLoaded: EventEmitter<number> = new EventEmitter();
-
 
 	private params = new URLSearchParams();
 
@@ -37,7 +29,8 @@ export class AppService {
     withCredentials: true
   };
 
-  constructor(private http: HttpClient, private globals: Globals, private qa2dashboardGlobals : Qa2DashboardGlobals, private utils: Utils, private sanitizer: DomSanitizer){
+  constructor(private http: HttpClient, private globals: Globals, private utils: Utils, 
+    private sanitizer: DomSanitizer, private emitters : Emitters, private processors: Processors){
     this.params.set('format', 'json');
 //    this.params.set('callback', 'JSONP_CALLBACK');
 	}
@@ -49,14 +42,28 @@ export class AppService {
     // read settings
     this.getDataAsync(this.globals.restServerURL,'settings', "", parameters, this.globals.operationType.settings)
 
+    this.setInitialSearchOptions();
+    console.log("Setting initial search options")
+
     window.sessionStorage.clear();
   }
+
+  setInitialSearchOptions(){
+    this.globals.searchOptions = new SearchOptions();
+    this.globals.timeInterval = this.globals.timeIntervals[0];
+    this.globals.dateStart = {year:this.globals.searchOptions.dateStart.getUTCFullYear(), month:this.globals.searchOptions.dateStart.getUTCMonth()+1, day: this.globals.searchOptions.dateStart.getUTCDate()};
+    this.globals.dateEnd = {year:this.globals.searchOptions.dateEnd.getUTCFullYear(), month:this.globals.searchOptions.dateEnd.getUTCMonth()+1, day: this.globals.searchOptions.dateEnd.getUTCDate()};
+    this.globals.timeStart = {hour: this.globals.searchOptions.dateStart.getUTCHours(), minute: this.globals.searchOptions.dateStart.getUTCMinutes(), second: this.globals.searchOptions.dateStart.getUTCSeconds()};
+    this.globals.timeEnd = {hour: this.globals.searchOptions.dateEnd.getUTCHours(), minute: this.globals.searchOptions.dateEnd.getUTCMinutes(), second: this.globals.searchOptions.dateEnd.getUTCSeconds()};
+  }
+
+  
 
   startup() {
 
     window.sessionStorage.clear();
     console.log("<<<<<<<<<<<<<<< location "+location.href);
-    this.loadingOn.emit();
+    this.emitters.getLoadingOnEmitter().emit();
 
     var url = this.globals.restServerURL + "/account";
     this.http.get(url).subscribe(response => this.gotAccountInfo(response));
@@ -150,23 +157,48 @@ setCookie( name: string, value:string, domain:string, path:string ) {
 
   }
 
-
-  getChangeEmitter() {
-    return this.change;
+  getExecBlock(execBlockUID : string): void {
+    if ( execBlockUID != null ) {
+      let excBlockUIDNormalized = this.utils.replaceAll(this.utils.replaceAll(execBlockUID, "://","___"),"/","_");
+      this.getDataAsync(this.globals.restServerURL,'execblock', excBlockUIDNormalized, this.globals.emptyList, this.globals.operationType.execBlock)
+    }
   }
 
-  getLoadingOnEmitter() {
-    return this.loadingOn;
+  getAosCheck(execBlockUID : string): void {
+    if ( execBlockUID != null ) {
+      let excBlockUIDNormalized = this.utils.replaceAll(this.utils.replaceAll(execBlockUID, "://","___"),"/","_");
+      this.getDataAsync(this.globals.restServerURL,'aoscheck', excBlockUIDNormalized, this.globals.emptyList, this.globals.operationType.aoscheck)
+    }
   }
 
-  getLoadingOffEmitter() {
-    return this.loadingOff;
+  getExecutionFraction(execBlockUID : string): void {
+    if ( execBlockUID != null ) {
+      let excBlockUIDNormalized = this.utils.replaceAll(this.utils.replaceAll(execBlockUID, "://","___"),"/","_");
+      this.getDataAsync(this.globals.restServerURL,'execfraction', excBlockUIDNormalized, this.globals.emptyList, this.globals.operationType.executionFraction)
+    }
   }
 
-  getCoverageLoadedEmitter() {
-    return this.coverageLoaded;
+  getQA0Report(execBlockUID : string, format: string): void {
+    if ( execBlockUID != null ) {
+      let excBlockUIDNormalized = this.utils.replaceAll(this.utils.replaceAll(execBlockUID, "://","___"),"/","_");
+      var parameters = [{key:"format", value:format}];
+      this.getDataAsync(this.globals.restServerURL,'report', excBlockUIDNormalized, parameters, this.globals.operationType.executionFraction)
+    }
   }
 
+  getQA0StatusHistory(execBlockUID : string): void {
+    if ( execBlockUID != null ) {
+      let excBlockUIDNormalized = this.utils.replaceAll(this.utils.replaceAll(execBlockUID, "://","___"),"/","_");
+      this.getDataAsync(this.globals.restServerURL,'qa0history', excBlockUIDNormalized, this.globals.emptyList, this.globals.operationType.qa0history)
+    }
+  }
+
+  getAntennaFlags(execBlockUID : string): void {
+    if ( execBlockUID != null ) {
+      let excBlockUIDNormalized = this.utils.replaceAll(this.utils.replaceAll(execBlockUID, "://","___"),"/","_");
+      this.getDataAsync(this.globals.restServerURL,'antenna-flags', excBlockUIDNormalized, this.globals.emptyList, this.globals.operationType.antennaFlags)
+    }
+  }
 
   getCoverages(execBlockUID : string): void {
     if ( execBlockUID != null ) {
@@ -175,13 +207,25 @@ setCookie( name: string, value:string, domain:string, path:string ) {
     }
   }
 
+  getAtmosphere(execBlockUID : string): void {
+    if ( execBlockUID != null ) {
+      let excBlockUIDNormalized = this.utils.replaceAll(this.utils.replaceAll(execBlockUID, "://","___"),"/","_");
+      this.getDataAsync(this.globals.restServerURL,'atmosphere', excBlockUIDNormalized, this.globals.emptyList, this.globals.operationType.atmosphere)
+    }
+  }
+
+  updateExecBlock( execBlock : ExecBlock ) {
+    let parameters = execBlock;
+    this.postData(this.globals.restServerURL,'execblock', parameters, this.globals.operationType.updateExecBlock);
+  }
+
   getDataAsync(server, api, urlParameter, parameters, operationType ){
     this.globals.currentOperationType = operationType;
     this.globals.api = api;
     var url = server + "/" + api + ((urlParameter.length != 0) ? ("/" + urlParameter) : "");
     console.log("Parameters "+JSON.stringify(parameters));
     if (parameters !== undefined) {
-        if (urlParameter.length == 0) { url += "?"; }
+        if (urlParameter.length >= 0) { url += "?"; }
         let first = true;
         parameters.forEach(function (par) {
             url += ((first)?"":"&") + par.key + "=" + par.value;
@@ -192,18 +236,17 @@ setCookie( name: string, value:string, domain:string, path:string ) {
 
     this.http.get(url).subscribe(response => {
       if (this.globals.pendingRequests>0) this.globals.pendingRequests--;
-      this.afterOperation(response, operationType);
+      this.processors.afterOperation(response, operationType);
     }, error => {this.handleError(error)});
 }
 
-  public postData(server, api, parameters, operationType ){
+  public postData(server, api, parameters, operationType){
     var url = server + "/" + api ;
     console.log("URL "+url);
     console.log("Parameters "+JSON.stringify(parameters));
     this.http.post(url, parameters, this.httpPOSTOptions).subscribe(response => {
-      this.afterOperation(response, operationType);
+      this.processors.afterOperation(response, operationType);
     }, err => {
-      this.afterOperation(undefined, operationType);
       console.log("error " + JSON.stringify(err));
     });
   }
@@ -213,24 +256,11 @@ setCookie( name: string, value:string, domain:string, path:string ) {
     console.log("URL "+url);
     console.log("Parameters "+JSON.stringify(parameters));
     this.http.delete(url, this.httpPOSTOptions).subscribe(response => {
-      this.afterOperation(response, operationType);
+      this.processors.afterOperation(response, operationType);
     }, error => {
       console.log("error " + JSON.stringify(error));
-      this.afterOperation(undefined, operationType);
+      this.processors.afterOperation(undefined, operationType);
     });
-  }
-
-
-	private extractCoverages(res: any) {
-    this.globals.coverages = res;
-    console.log("Coveragess " + JSON.stringify(res));
-    this.getCoverageLoadedEmitter().emit();
-  }
-
-  private extractSettings(res: any) {
-    this.globals.helpURL = res.helpURL;
-    this.globals.helpdeskEmail = res.email;
-    console.log("settings" + JSON.stringify(res));
   }
 
   // Increase the value associated with a key by one
@@ -238,24 +268,11 @@ setCookie( name: string, value:string, domain:string, path:string ) {
     m.set(key, m.has(key) ? m.get(key) + 1 : 1);
   }
 
-  private mapToPropCounts<k>(m: Map<k, number>): PropCount<k>[] {
-    return Array.from(m, ([prop, count]) => new PropCount(prop, count));
-  }
-
-
-  private afterOperation(res: any, operationType:string) {
-    if ( operationType == this.globals.operationType.coverages){
-      this.extractCoverages(res);
-    } else if (operationType==this.globals.operationType.settings) {
-      this.extractSettings(res);
-    }
-  }
-
   checkPendingProcesses(){
     if (this.globals.pendingRequests==0){
       console.log('pending requests '+this.globals.pendingRequests);
-      this.loadingOff.emit();
-      this.change.emit();
+      this.emitters.getLoadingOffEmitter().emit();
+      this.emitters.getChangeEmitter().emit();
     }
   }
 
@@ -268,19 +285,11 @@ setCookie( name: string, value:string, domain:string, path:string ) {
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
-    // console.log("error "+errMsg);
-    // console.log("this.globals "+this.globals);
-    // if (this.globals!=undefined){
-    // this.globals.pendingRequests=0;}
     return observableThrowError(errMsg);
   }
 
   sanitizeTrusted(url: string): SafeUrl {
       return this.sanitizer.bypassSecurityTrustUrl(url);
-  }
-
-  truncate(length: number, str: string) {
-      return str.length <= length ? str : str.substring(0, length - 2) + "...";
   }
 
   //Solution adapted from http://stackoverflow.com/questions/14267781/sorting-html-table-with-js

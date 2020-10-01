@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.javastro:jsofa:20190722">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/javastro/jsofa/20190722/jsofa-20190722.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/javastro/jsofa/20190722/jsofa-20190722-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/javastro/jsofa/20190722/jsofa-20190722-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

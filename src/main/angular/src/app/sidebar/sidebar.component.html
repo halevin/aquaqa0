@@ -1,0 +1,33 @@
+<div class="d-flex justify-content-center fill-height" *ngIf="globals.searchSpinnerVisible">
+  <div class="spinner-border" style="width: 3rem; height: 3rem; margin-top: 18%;" role="status">
+      <span class="sr-only">Loading...</span>
+  </div>    
+</div>
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right search-results" id="sidebar-wrapper" *ngIf="!globals.searchSpinnerVisible">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Project</th>
+                <th scope="col">SB Name</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">QA0 State</th>
+                <th scope="col">EB UID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let eb of globals.execBlocks" (click)="openExecBlock(eb.execBlockUid)">
+                <td>{{eb.obsProjectCode}}</td>
+                <td>{{eb.schedBlockName}}</td>
+                <td></td>
+                <td>{{utils.formatDateTime(eb.startTime)}}</td>
+                <td>{{eb.qa0Status}}</td>
+                <td>{{eb.execBlockUid}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+  <!-- /#sidebar-wrapper -->

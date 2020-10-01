@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: alma.archive:projectcode:2020.08-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/archive/projectcode/2020.08-SNAPSHOT/projectcode-2020.08-20200929.101323-20.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/archive/projectcode/2020.08-SNAPSHOT/projectcode-2020.08-20200929.101323-20-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/archive/projectcode/2020.08-SNAPSHOT/projectcode-2020.08-20200929.101323-20-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

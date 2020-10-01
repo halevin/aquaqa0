@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: alma.acs:errj:2020.08-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/acs/errj/2020.08-SNAPSHOT/errj-2020.08-20200929.101001-26.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/acs/errj/2020.08-SNAPSHOT/errj-2020.08-20200929.101001-26-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/acs/errj/2020.08-SNAPSHOT/errj-2020.08-20200929.101001-26-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

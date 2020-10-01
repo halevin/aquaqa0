@@ -1,28 +1,41 @@
-import { NgModule }              from '@angular/core';
-import { RouterModule, Routes }  from '@angular/router';
-import { SourcesComponent } from './sources/sources.component';
-import { HomeComponent } from './home/home.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { SearchComponent } from './search/search.component';
+import { ExecblockComponent } from './execblock/execblock.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
-const appRoutes: Routes = [
-    {
-      path: 'sources',
-      component: SourcesComponent
-    },
-    {
-      path: '**',
-      component: HomeComponent
-    }
-  ];
 
-  @NgModule({
-    imports: [
-      RouterModule.forRoot(
-        appRoutes,
-        { useHash: true}
-      )
-    ],
-    exports: [
-      RouterModule
-    ]
-  })
-  export class AppRoutingModule {}
+const routes: Routes = [
+  {
+    path: 'search',
+    component: SearchComponent
+  },
+  {
+    path: 'execblock',
+    component: ExecblockComponent
+  },
+  {
+    path: 'execblock/:uid',
+    component: ExecblockComponent
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent
+  },
+  {
+    path: '',
+    redirectTo: 'search', pathMatch: 'full'
+  },
+  {
+    path: '**',
+    component: SearchComponent
+  }
+
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes,
+    { useHash: true })],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

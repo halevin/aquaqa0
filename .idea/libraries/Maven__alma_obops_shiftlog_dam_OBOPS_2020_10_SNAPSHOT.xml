@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: alma.obops:shiftlog-dam:OBOPS-2020.10-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/obops/shiftlog-dam/OBOPS-2020.10-SNAPSHOT/shiftlog-dam-OBOPS-2020.10-20200930.151115-74.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/obops/shiftlog-dam/OBOPS-2020.10-SNAPSHOT/shiftlog-dam-OBOPS-2020.10-20200930.151115-74-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/obops/shiftlog-dam/OBOPS-2020.10-SNAPSHOT/shiftlog-dam-OBOPS-2020.10-20200930.151115-74-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

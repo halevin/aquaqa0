@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: alma.icd.hla:asdm-runtime:2020.08-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/icd/hla/asdm-runtime/2020.08-SNAPSHOT/asdm-runtime-2020.08-20200811.210631-6.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/icd/hla/asdm-runtime/2020.08-SNAPSHOT/asdm-runtime-2020.08-20200811.210631-6-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/icd/hla/asdm-runtime/2020.08-SNAPSHOT/asdm-runtime-2020.08-20200811.210631-6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

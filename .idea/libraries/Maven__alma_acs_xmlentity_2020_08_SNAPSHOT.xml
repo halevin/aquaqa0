@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: alma.acs:xmlentity:2020.08-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/acs/xmlentity/2020.08-SNAPSHOT/xmlentity-2020.08-20200929.101005-26.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/acs/xmlentity/2020.08-SNAPSHOT/xmlentity-2020.08-20200929.101005-26-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/alma/acs/xmlentity/2020.08-SNAPSHOT/xmlentity-2020.08-20200929.101005-26-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
