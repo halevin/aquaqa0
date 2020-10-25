@@ -6,6 +6,7 @@ import { Utils } from '../app.utils';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Emitters } from '../app.emitters';
 import { QA0Reason } from '../domain/qareason';
+import { ExecBlockComment } from '../domain/comment';
 
 @Component({
   selector: 'app-execblock',
@@ -47,7 +48,12 @@ export class ExecblockComponent implements OnInit {
       }
     )
 
-  }
+    this.emitters.getReloadCommentEmitter().subscribe(() => {
+      this.service.getComments(this.execBlockUID);
+    }
+  )
+
+}
 
   doQA0(contentdoqa0) {
     console.log("Do QA0");
@@ -121,6 +127,14 @@ export class ExecblockComponent implements OnInit {
 
   openQA0ReportPDF(){
     this.service.getQA0Report(this.globals.currentExecBlockUID, "PDF");
+  }
+
+  newComment(){
+    let newComment = new ExecBlockComment();
+    newComment.author = this.globals.account.username;
+    newComment.timestamp = new Date();
+    newComment.execBlockUid = this.globals.currentExecBlockUID;
+    this.globals.comments = [newComment].concat(this.globals.comments);
   }
 
 }

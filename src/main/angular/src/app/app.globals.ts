@@ -3,6 +3,7 @@ import { ExecBlock } from './domain/execblock';
 import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { SearchOptions } from './searchoptions';
 import { QA0Reason } from './domain/qareason';
+import { ExecBlockComment } from './domain/comment';
 
 export interface IOption {
   id: string,
@@ -51,6 +52,7 @@ export class Globals {
     atmosphere = {};
     qa0StatusHitory = [];
     antennaFlags = [];
+    comments : ExecBlockComment[] = [];
 
     currentExecBlockUID : string;
 
@@ -64,7 +66,11 @@ export class Globals {
       aoscheck : 'aoscheck',
       executionFraction : 'executionFraction',
       qa0history : 'qa0history',
+      comments : 'comments',
+      updateComment : 'updateComment',
+      deleteComment : 'deleteComment',
       antennaFlags : 'antennaFlags',
+      warnings : 'warnings',
       settings : 'settings',
       coverages : 'coverages',
       atmosphere : 'atmosphere',

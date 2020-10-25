@@ -10,6 +10,7 @@ import { SearchOptions } from './searchoptions';
 import { ExecBlock } from './domain/execblock';
 import { Emitters } from './app.emitters';
 import { Processors } from './app.processors';
+import { ExecBlockComment } from './domain/comment';
 
 
 @Injectable()
@@ -161,6 +162,7 @@ setCookie( name: string, value:string, domain:string, path:string ) {
     if ( execBlockUID != null ) {
       let excBlockUIDNormalized = this.utils.replaceAll(this.utils.replaceAll(execBlockUID, "://","___"),"/","_");
       this.getDataAsync(this.globals.restServerURL,'execblock', excBlockUIDNormalized, this.globals.emptyList, this.globals.operationType.execBlock)
+      this.getComments(execBlockUID);
     }
   }
 
@@ -193,6 +195,13 @@ setCookie( name: string, value:string, domain:string, path:string ) {
     }
   }
 
+  getComments(execBlockUID : string): void {
+    if ( execBlockUID != null ) {
+      let excBlockUIDNormalized = this.utils.replaceAll(this.utils.replaceAll(execBlockUID, "://","___"),"/","_");
+      this.getDataAsync(this.globals.restServerURL,'comment', excBlockUIDNormalized, this.globals.emptyList, this.globals.operationType.comments)
+    }
+  }
+
   getAntennaFlags(execBlockUID : string): void {
     if ( execBlockUID != null ) {
       let excBlockUIDNormalized = this.utils.replaceAll(this.utils.replaceAll(execBlockUID, "://","___"),"/","_");
@@ -217,6 +226,16 @@ setCookie( name: string, value:string, domain:string, path:string ) {
   updateExecBlock( execBlock : ExecBlock ) {
     let parameters = execBlock;
     this.postData(this.globals.restServerURL,'execblock', parameters, this.globals.operationType.updateExecBlock);
+  }
+
+  updateComment( comment : ExecBlockComment ) {
+    let parameters = comment;
+    this.postData(this.globals.restServerURL,'comment', parameters, this.globals.operationType.updateComment);
+  }
+
+  deleteComment( comment : ExecBlockComment ) {
+    let parameters = comment.id;
+    this.deleteData(this.globals.restServerURL,'comment', parameters, this.globals.operationType.deleteComment);
   }
 
   getDataAsync(server, api, urlParameter, parameters, operationType ){

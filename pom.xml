@@ -6,7 +6,7 @@
     <parent>
         <groupId>alma.obops</groupId>
         <artifactId>obops-spring-boot-master</artifactId>
-        <version>OBOPS-2020.10-SNAPSHOT</version>
+        <version>OBOPS-2020.11-SNAPSHOT</version>
     </parent>
 
     <artifactId>aqua-qa0</artifactId>

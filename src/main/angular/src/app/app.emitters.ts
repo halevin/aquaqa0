@@ -16,6 +16,7 @@ export class Emitters {
   atmosphereLoaded: EventEmitter<number> = new EventEmitter();
   executionFractionEmitter: EventEmitter<number> = new EventEmitter();
 
+  reloadCommentsEmitter: EventEmitter<number> = new EventEmitter();
 
   getExpandSideBarEmitter() {
     return this.expandSidebar;
@@ -51,6 +52,10 @@ export class Emitters {
 
   getAntennaFlagsLoadingEmitter(){
     return this.antennaFlagsLoadingEmitter;
+  }
+
+  getReloadCommentEmitter(){
+    return this.reloadCommentsEmitter;
   }
 
 

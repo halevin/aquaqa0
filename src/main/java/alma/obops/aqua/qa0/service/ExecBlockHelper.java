@@ -11,7 +11,9 @@ import alma.entity.xmlbinding.schedblock.SchedBlock;
 import alma.obops.aqua.domain.*;
 import alma.obops.aqua.domain.aoscheck.AosCheckSummary;
 import alma.obops.aqua.qa0.domain.AquaStatusHistoryModel;
+import alma.obops.aqua.qa0.domain.ExecBlockCommentModel;
 import alma.obops.aqua.qa0.domain.ExecBlockModel;
+import alma.obops.aqua.qa0.persistence.CommentRepository;
 import alma.obops.aqua.reports.AquaReport;
 import alma.obops.aqua.service.*;
 import alma.obops.aqua.service.asdm.ASDMAtmosphereSummaryContainer;
@@ -22,12 +24,9 @@ import alma.obops.aqua.servlet.AquaQA0ReportProducer;
 import alma.obops.aqua.utils.AquaUtils;
 import alma.obops.dam.apdm.service.SchedBlockService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.*;
@@ -75,6 +74,12 @@ public class ExecBlockHelper {
     @Autowired
     private AquaQA0ReportProducer aquaQA0ReportProducer;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private WarningsHelper warningsHelper;
+
 
     public ExecBlockModel build(String execBlockUID) {
 
@@ -92,6 +97,9 @@ public class ExecBlockHelper {
         if ( execBlock != null && execBlockView != null ) {
             String schedlBlockUID = execBlockView.getSchedBlockUid();
             ObsUnitSet obsUnitSet = obsUnitSetService.findBySchedBlockUID(schedlBlockUID);
+
+            List<Scan> scans = asdmService.getScans(execBlockUID, aquaAsdm.getAsdmScanTable());
+
             if ( obsUnitSet != null ) {
                 execBlockModel.ousStatusUid = obsUnitSet.getObsUnitSetView().getOusStatusPf().getStatusEntityId();
             }
@@ -109,6 +117,12 @@ public class ExecBlockHelper {
             execBlockModel.representativeFrequency = String.format("%.3f GHz",execBlockView.getRepresentativeFrequency());
             execBlockModel.aosCheckSummary = aosCheckSummary;
 
+            execBlockModel.warnings = getWarnings(execBlockView, aquaAsdm, aosCheckSummary, scans);
+            execBlockModel.isAntennasDetailsAsWarning = warningsHelper.isAntennasDetailsAsWarning(execBlockView, aosCheckSummary);
+
+            execBlockModel.bandDetails = warningsHelper.getBandDetails(execBlockView, aosCheckSummary);
+            execBlockModel.isBandDetailsAsWarning = warningsHelper.isBandDetailsAsWarning(execBlockView, aosCheckSummary);
+
             if (weatherResult!=null){
                 execBlockModel.weatherData = String.format("PWV %.2f mm; Wind %.2f m/s; Humidity %.2f %%; Pressure %.2f hPa",
                         weatherResult.getPwv(), weatherResult.getWind(), weatherResult.getHumidity(), weatherResult.getPressure());
@@ -119,7 +133,6 @@ public class ExecBlockHelper {
                 execBlockModel.phaseRMS = String.format("Phase rms: %.3f (microns)", aosCheckSummary.getPhaseRMSantenna());
             }
 
-            List<Scan> scans = asdmService.getScans(execBlockUID, aquaAsdm.getAsdmScanTable());
             SchedBlock schedBlock = schedBlockService.read(execBlockView.getSchedBlockUid());
 
             boolean isFluxCalibratorMissing	= !scanExpert.isSpectralIndexMeasurementExists(scans, execBlockView.getBandName()) &&
@@ -205,6 +218,44 @@ public class ExecBlockHelper {
 
         return sourceCoverages;
 
+    }
+
+    public List<ExecBlockComment> getExecBlockComments(String execBlockUID) {
+        ExecBlock execBlock = execBlockService.findByExecBlockUID(execBlockUID);
+
+        return commentRepository.findByExecBlockOrderByTimestampDesc(execBlock);
+    }
+
+    public void updateComment(ExecBlockCommentModel execBlockCommentModel, String author) {
+        if ( execBlockCommentModel != null ) {
+            ExecBlock execBlock = execBlockService.findByExecBlockUID(execBlockCommentModel.execBlockUid);
+            if ( execBlock == null ) { throw new RuntimeException("Cannot find ExecBlock for UID " + execBlockCommentModel.execBlockUid);}
+
+            ExecBlockComment execBlockComment = null;
+            if ( execBlockCommentModel.id != null ) {
+                Optional<ExecBlockComment> execBlockCommentOpt = commentRepository.findById(execBlockCommentModel.id);
+                if ( execBlockCommentOpt.isPresent() ) {
+                    execBlockComment = execBlockCommentOpt.get();
+                    execBlockComment.setComment(execBlockCommentModel.comment);
+                    execBlockComment.setTimestamp(execBlockCommentModel.timestamp);
+                }
+            } else {
+                execBlockComment = new ExecBlockComment();
+                execBlockComment.setExecBlock(execBlock);
+                execBlockComment.setTimestamp(new Date());
+                execBlockComment.setAuthor(author);
+                execBlockComment.setComment(execBlockCommentModel.comment);
+            }
+            if ( execBlockComment != null ) {
+                commentRepository.save(execBlockComment);
+            }
+        }
+    }
+
+    public void deleteComment(Long commentId, String author) {
+        if ( commentId != null ) {
+             commentRepository.deleteById(commentId);
+        }
     }
 
     public ASDMAtmosphereSummaryContainer getAtmosphereSummaryContainer(String execBlockUID) {
@@ -312,6 +363,46 @@ public class ExecBlockHelper {
         }
 
         return data;
+    }
+
+    public List<String> getWarnings(ExecBlockView execBlockView, AsdmTables asdmTables, AosCheckSummary aosCheckSummary, List<Scan> scans) {
+        List<String> warnings = new ArrayList<>();
+
+        ArrayInformation arrayInformation = arrayInformationCalculator.getArrayInformation(execBlockView, asdmTables);
+
+        String fluxCalWarning = warningsHelper.fluxCalWarning(execBlockView, scans);
+        if (StringUtils.hasText(fluxCalWarning)) {
+            warnings.add(fluxCalWarning);
+        }
+
+        String shadowWarning = warningsHelper.getShadowingWarning(execBlockView, asdmTables);
+        if (StringUtils.hasText(shadowWarning)) {
+            warnings.add(shadowWarning);
+        }
+
+//        String fracFlagWarning = warningsHelper.fracFlagWarning(aosCheckSummary);
+//        if (StringUtils.hasText(fracFlagWarning)) {
+//            warnings.add(fracFlagWarning);
+//        }
+//
+        String remClodWarning = warningsHelper.remCloudWarning(aosCheckSummary);
+        if (StringUtils.hasText(remClodWarning)) {
+            warnings.add(remClodWarning);
+        }
+
+        String arWarning = arrayInformation.getArWarning();
+        if (StringUtils.hasText(arWarning)) {
+            warnings.add(arWarning);
+        }
+
+        String mrsWarning = arrayInformation.getMrsWarning();
+        if (StringUtils.hasText(mrsWarning)) {
+            warnings.add(mrsWarning);
+        }
+
+
+
+        return warnings;
     }
 
     private void sort(List<String> collection){

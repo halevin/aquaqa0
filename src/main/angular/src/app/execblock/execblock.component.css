@@ -105,3 +105,7 @@
     padding-top: 10px; 
     padding-left: 30px;
 }
+
+.bold {
+    font-weight: bold;
+}

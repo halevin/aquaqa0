@@ -20,10 +20,14 @@ export class ExecBlock{
     phaseRMS : string;
     antennasInfo : string;
     aosCheckSummary : any;
+    bandDetails : string = "";
     finalComment : string = "";
+    warnings : string[] = [];
 
     executionFractionReport : string = "";
     isFluxCalibratorMissing : boolean = false;
+    isAntennasDetailsAsWarning : boolean = false;
+    isBandDetailsAsWarning : boolean = false;
 
     constructor(){}
 }

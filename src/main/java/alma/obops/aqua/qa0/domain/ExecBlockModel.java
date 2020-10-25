@@ -2,6 +2,8 @@ package alma.obops.aqua.qa0.domain;
 
 import alma.obops.aqua.domain.aoscheck.AosCheckSummary;
 
+import java.util.List;
+
 public class ExecBlockModel {
 
     public String execBlockUid;
@@ -21,7 +23,11 @@ public class ExecBlockModel {
     public String weatherData;
     public String phaseRMS;
     public String antennasInfo;
+    public String bandDetails;
     public boolean isFluxCalibratorMissing;
+    public List<String> warnings;
+    public boolean isAntennasDetailsAsWarning;
+    public boolean isBandDetailsAsWarning;
 
 
     public ExecBlockModel(){}

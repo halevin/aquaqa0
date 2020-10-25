@@ -1,0 +1,49 @@
+<div class="card border-dark" style="width: 100%; margin-top: 10px;">
+    <div class="card-header"><span style="font-style: italic;font-weight: bold;">{{comment.author}}</span> commented at <span style="font-weight: bold;">{{comment.timestamp | customDate}}</span></div>
+    <div class="card-body">
+        <div class="card-text" style="overflow-y: scroll;">
+            <div *ngIf="readOnly && comment.id != null">
+                <pre id="commenttext" style="padding: 10px; margin-bottom: 10px;">{{comment.comment}}</pre>
+                <br/>
+                <button id="commentedit" *ngIf="comment.author == globals.account.username" type="button" class="btn btn-outline-primary button-margin" (click) = "edit()">
+                    <i class="fas fa-edit"></i>
+                    Edit
+                </button>
+                <button id="commentdelete" *ngIf="comment.author == globals.account.username" type="button" class="btn btn-outline-danger button-margin" (click) = "delete(deleteconfirmation)">
+                    <i class="fas fa-delete"></i>
+                    Delete
+                </button>
+            </div>
+            <div *ngIf="!readOnly || comment.id == null">
+                <textarea id="commentedit" style="padding: 10px;width: 100%; margin-bottom: 10px;" [(ngModel)]="comment.comment" aquaAutofocus></textarea>
+                <br/>
+                <button id="commentsave" type="button" class="btn btn-outline-primary button-margin"  (click) = "save()">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+                <button id="commentcancel" type="button" class="btn btn-outline-primary button-margin"  (click) = "cancel()">
+                    <i class="fas fa-save"></i>
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #deleteconfirmation let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Delete</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid col d-flex flex-column fill-all" style="padding-top: 10px;">
+            Are you sure you want to delete this comment?
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modal.close('approved')">Ok</button>
+        <button type="button" class="btn btn-light" (click)="modal.dismiss('Close click')">Close</button>
+    </div>
+</ng-template>    

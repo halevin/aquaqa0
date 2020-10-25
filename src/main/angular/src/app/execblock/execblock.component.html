@@ -132,15 +132,24 @@
                 <div class="card" style="width: 100%;">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-1 col-md-1 col-sm-12">
+                            <div class="col-1 col-md-1 col-sm-12 bold">
                                 Antennas
                             </div>
                             <div class="col-11 col-md-11 col-sm-12 info">
+                                <i class="fas fa-exclamation-triangle" style="color: red;" *ngIf="globals.execBlock.isAntennasDetailsAsWarning"></i> 
                                 {{(globals.execBlock.aosCheckSummary!=null)?globals.execBlock.aosCheckSummary.antennaSummary:""}}
                             </div>    
                         </div><!--row-->
+                        <div class="row" *ngIf="globals.execBlock.bandDetails != null">
+                            <div class="col-1 col-md-1 col-sm-12 bold">
+                            </div>
+                            <div class="col-11 col-md-11 col-sm-12 info" ngbTooltip="First and second bands correspond to phase rms constraints of 57 and 85 degrees respectively.">
+                                <i class="fas fa-exclamation-triangle" style="color: red;" *ngIf="globals.execBlock.isBandDetailsAsWarning"></i> 
+                                {{globals.execBlock.bandDetails}}
+                            </div>    
+                        </div><!--row-->
                         <div class="row">
-                            <div class="col-1 col-md-1 col-sm-12">
+                            <div class="col-1 col-md-1 col-sm-12 bold">
                                 Weather
                             </div>
                             <div class="col-11 col-md-11 col-sm-12 info">
@@ -155,20 +164,6 @@
 
         <div class="row">
             <div class="col-12 col-md-12 col-sm-12">
-                <div class="card" style="width: 100%;">
-                    <h6 class="card-title" style="padding-left: 10px;">Final comment</h6>
-                    <div class="card-body">
-                        <div class="row" style="overflow-y: scroll;">
-                            <pre style="padding: 10px;">{{globals.execBlock.finalComment}}</pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div><!--row-->
-
-
-        <div class="row">
-            <div class="col-12 col-md-12 col-sm-12">
                 <button type="button" (click)="openWindow(content_aoscheck)"
                     [disabled]="globals.aosCheckSummary == null || globals.aosCheckSummary.aosCheckJson == null" 
                     class="btn btn-primary">
@@ -179,17 +174,18 @@
                 href="{{globals.restServerURL}}/report/{{utils.getExecBlockUIDNormalized(globals.currentExecBlockUID)}}?format=PDF"  
                 download="QA0_report_{{globals.currentExecBlockUID}}.pdf" class="btn btn-primary">QA0 Report</a>&nbsp;&nbsp;
                 <button type="button" (click)="openWindow(content_antenna_flags)" class="btn btn-primary">Antenna Flags</button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-primary">Comments (2)</button>&nbsp;&nbsp;
+                <button type="button" (click)="openWindow(content_comments)" class="btn btn-primary">Comments ({{globals.comments.length}})</button>&nbsp;&nbsp;
             </div>
         </div><!--row-->
 
-        <div class="row">
+        <div class="row" *ngIf="globals.execBlock.warnings.length > 0">
             <div class="col-12 col-md-12 col-sm-12">
                 <div class="card" style="width: 100%;">
                     <div class="card-body">
                         <div class="row">
-                            <div class="alert alert-warning" style="width: 100%;" role="alert">
-                                A simple warning alert
+                            <div class="alert alert-warning" style="width: 100%;" role="alert" *ngFor="let warning of globals.execBlock.warnings">
+                                <i class="fas fa-exclamation-triangle" style="color: red;"></i> 
+                                {{warning}}
                             </div>                        
                         </div>
                     </div>
@@ -197,6 +193,32 @@
             </div>    
         </div>
         
+        <div class="row" *ngIf="globals.execBlock.aosCheckSummary != null && globals.execBlock.aosCheckSummary.qa0Report != null">
+            <div class="col-12 col-md-12 col-sm-12">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title" style="padding-left: 10px; font-weight: bold;">AOS Check comment</h5>
+                        <div class="row card-text" style="overflow-y: scroll;">
+                            <pre style="padding: 10px;">{{globals.execBlock.aosCheckSummary.qa0Report.trim()}}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--row-->
+
+        <div class="row">
+            <div class="col-12 col-md-12 col-sm-12">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title" style="padding-left: 10px; font-weight: bold;">Final comment</h5>
+                        <div class="row card-text" style="overflow-y: scroll;">
+                            <pre style="padding: 10px;">{{globals.execBlock.finalComment}}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--row-->
+
     </div><!--container-fluid root-->
     </div>
     </div>
@@ -313,6 +335,22 @@
     </div>
     <div class="modal-body">
         <antenna-flags></antenna-flags>
+    </div>
+</ng-template>    
+
+<ng-template #content_comments let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Comments</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="margin-bottom: 10px;">
+        <button type="button" class="btn btn-outline-success btn-lg btn-block" (click)="newComment()">
+            <i class="fas fa-plus"></i>
+            New comment
+        </button>
+        <app-comment *ngFor="let c of globals.comments" [(comment)] = "c"></app-comment>
     </div>
 </ng-template>    
 

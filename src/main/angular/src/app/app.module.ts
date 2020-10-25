@@ -23,6 +23,8 @@ import { Processors } from './app.processors';
 import { Qa0StatusHistoryComponent } from './details/qa0-status-history/qa0-status-history.component';
 import { CustomDatePipe } from './app.datepipe';
 import { AntennaFlagsComponent } from './antenna-flags/antenna-flags.component';
+import { CommentComponent } from './comment/comment.component';
+import { AutofocusDirective } from 'src/autofocus.directive';
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import { AntennaFlagsComponent } from './antenna-flags/antenna-flags.component';
     SourcesComponent,
     AtmosphereComponent,
     Qa0StatusHistoryComponent,
-    AntennaFlagsComponent
+    AntennaFlagsComponent,
+    CommentComponent,
+    AutofocusDirective
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import { Emitters } from './app.emitters';
 import { Globals } from './app.globals';
+import { AppService } from './app.service';
 
 
 @Injectable()
@@ -30,6 +31,12 @@ export class Processors {
       this.extractAtmosphere(res);
     } else if (operationType == this.globals.operationType.antennaFlags) {
       this.extractAntennaFlags(res);
+    } else if (operationType == this.globals.operationType.comments) {
+      this.extractComments(res);
+    } else if (operationType == this.globals.operationType.updateComment) {
+      this.updateComment(res);
+    } else if (operationType == this.globals.operationType.deleteComment) {
+      this.deleteComment(res);
     }
   }
 
@@ -59,6 +66,19 @@ export class Processors {
   private extractQA0StatusHistory(result : any) {
     this.globals.qa0StatusHitory = result;
     console.log("QA0 Status History " + JSON.stringify(this.globals.qa0StatusHitory));
+  }
+
+  private extractComments(result : any) {
+    this.globals.comments = result;
+    console.log("Comments " + JSON.stringify(this.globals.comments));
+  }
+
+  private updateComment(result : any) {
+    this.emitters.getReloadCommentEmitter().emit();
+  }
+
+  private deleteComment(result : any) {
+    this.emitters.getReloadCommentEmitter().emit();
   }
 
   private extractCoverages(res: any) {

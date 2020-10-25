@@ -28,8 +28,10 @@ import alma.obops.aqua.domain.ExecutionFraction;
 import alma.obops.aqua.domain.aoscheck.AosCheckSummary;
 import alma.obops.aqua.qa0.AquaGUIConstants;
 import alma.obops.aqua.qa0.domain.AquaStatusHistoryModel;
+import alma.obops.aqua.qa0.domain.ExecBlockCommentModel;
 import alma.obops.aqua.qa0.domain.ExecBlockModel;
 import alma.obops.aqua.qa0.service.ExecBlockHelper;
+import alma.obops.aqua.qa0.service.WarningsHelper;
 import alma.obops.aqua.reports.AquaReport;
 import alma.obops.aqua.service.ExecBlockService;
 import alma.obops.aqua.servlet.AquaQA0ReportProducer;
@@ -51,9 +53,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Principal;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -63,10 +67,13 @@ public class ExecBlockRestController {
 	private static final String ENCODING = "UTF-8";
 	private static final String RETURN_URL_COOKIE = "return-url";
 
-	protected Logger logger = LogManager.getLogger( RequestLoggingFilter.class );
+	protected Logger logger = LogManager.getLogger( ExecBlockRestController.class );
 
 	@Autowired
 	private ExecBlockHelper execBlockHelper;
+
+	@Autowired
+	private WarningsHelper warningsHelper;
 
 	public ExecBlockRestController() {
 	}
